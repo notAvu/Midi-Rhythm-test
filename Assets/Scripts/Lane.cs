@@ -40,6 +40,7 @@ public class Lane : MonoBehaviour
         if(spawnIndex < noteTimestamps.Count)
         {
             var note = Instantiate(NotePrefab, transform);
+            note.GetComponent<SpriteRenderer>().enabled = true;
             notes.Add(note.GetComponent<NoteScript>());
             note.GetComponent<NoteScript>().assignedTime = (float)noteTimestamps[spawnIndex];
             spawnIndex++;
@@ -59,7 +60,7 @@ public class Lane : MonoBehaviour
                 }
                 else
                 {
-                    //miss note
+                    ScoreManager.Instance.NoteMissed();
                     Debug.Log($"Hit inaccurate on {inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
                 }
             }
