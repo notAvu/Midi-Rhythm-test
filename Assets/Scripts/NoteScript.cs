@@ -5,7 +5,7 @@ using UnityEngine;
 public class NoteScript : MonoBehaviour
 {
     private double instantiationTimestamp; //still have to figure aut how to label this better so it looks less confusing
-    private float assignedTime;
+    public float assignedTime;
     private double timeSienceInstantiated;
 
     void Start()

@@ -12,12 +12,15 @@ public class SongManager : MonoBehaviour
     private AudioSource songAudio;
     
     private float songDelay; //time between the midi file loading and the song starting
-    private int inputDelay; //in milliseconds
+    public int inputDelay; //in milliseconds
 
     public double marginOfError; //seconds 
 
     private string fileLocation; //midi file location in streamingassets 
     public static MidiFile midiFile; //loaded midi file
+
+    [SerializeField]
+    private Lane[] lanes;
 
     public float NoteSpawnPointY { get; set; }
     public float NoteTime { get; set; }
@@ -35,8 +38,11 @@ public class SongManager : MonoBehaviour
         var noteArray = new Note[notes.Count];
         notes.CopyTo(noteArray,0);
 
+        foreach(var lane in lanes)
+        {
+            lane.SetTimestamps(noteArray);
+        }
         //manipulation here
-
         Invoke(nameof(StartSong), songDelay);
 
     }
