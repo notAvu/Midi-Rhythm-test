@@ -9,27 +9,34 @@ using System;
 public class SongManager : MonoBehaviour
 {
     public static SongManager Instance;
-    private AudioSource songAudio;
+    public AudioSource songAudio;
     
     private float songDelay; //time between the midi file loading and the song starting
     public int inputDelay; //in milliseconds
-
+    [SerializeField]
     public double marginOfError; //seconds 
 
+    [SerializeField]
     private string fileLocation; //midi file location in streamingassets 
     public static MidiFile midiFile; //loaded midi file
 
     [SerializeField]
     private Lane[] lanes;
-
-    public float NoteSpawnPointY { get; set; }
-    public float NoteTime { get; set; }
+    [SerializeField]
+    public float NoteSpawnPointY;
+    [SerializeField]
+    public float NoteTime;
+    [SerializeField]
     private float noteTapY;
+    [SerializeField]
     public float NoteDespawnY { get { return noteTapY - (NoteSpawnPointY-noteTapY) ; } }
 
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
+        NoteSpawnPointY = 6f; 
+        ReadMidiFile();
     }
     private void ReadMidiFile()
     {
