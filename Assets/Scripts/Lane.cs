@@ -19,7 +19,7 @@ public class Lane : MonoBehaviour
     int spawnIndex = 0;
     int inputIndex = 0;
 
-    void Start()
+    void Awake()
     {
         notes = new List<NoteScript>();
         noteTimestamps = new List<double>();
@@ -34,16 +34,21 @@ public class Lane : MonoBehaviour
                 noteTimestamps.Add((double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f);
             }
         }
+        Debug.Log(noteTimestamps.Count);
     }
     void Update()
     {
+        Debug.Log($"spawnIndex: {spawnIndex}");
+        Debug.Log($"inputIndex: {inputIndex}");
         if(spawnIndex < noteTimestamps.Count)
         {
+            if (SongManager.GetAudioSourceTime() >= noteTimestamps[spawnIndex] - SongManager.Instance.NoteTime) { 
             var note = Instantiate(NotePrefab, transform);
             note.GetComponent<SpriteRenderer>().enabled = true;
-            notes.Add(note.GetComponent<NoteScript>());
             note.GetComponent<NoteScript>().assignedTime = (float)noteTimestamps[spawnIndex];
+            notes.Add(note.GetComponent<NoteScript>());
             spawnIndex++;
+            }
         }
         if(inputIndex < noteTimestamps.Count)
         {
@@ -56,6 +61,7 @@ public class Lane : MonoBehaviour
                 if(Math.Abs(audioTime - timeStamp) < marginOfError)
                 {
                     ScoreManager.Instance.NoteHit();
+                    Destroy(notes[inputIndex].gameObject);
                     inputIndex++;
                 }
                 else

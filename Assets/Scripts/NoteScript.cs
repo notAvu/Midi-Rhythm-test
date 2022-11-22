@@ -16,6 +16,7 @@ public class NoteScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(assignedTime);
         timeSienceInstantiated = SongManager.GetAudioSourceTime() - instantiationTimestamp;
         float t = (float)(timeSienceInstantiated / (SongManager.Instance.NoteTime * 2));
         if (t > 1)
@@ -25,7 +26,7 @@ public class NoteScript : MonoBehaviour
         else
         {
             //interpolates note position between spawn and despawn points.
-            transform.position = Vector3.Lerp(Vector3.up * SongManager.Instance.NoteSpawnPointY, Vector3.up * SongManager.Instance.NoteDespawnY, t); 
+            transform.position = Vector3.Lerp(new Vector3(transform.position.x, SongManager.Instance.NoteSpawnPointY,0) , new Vector3(transform.position.x, SongManager.Instance.NoteDespawnY, 0), t); 
         }
     }
 }

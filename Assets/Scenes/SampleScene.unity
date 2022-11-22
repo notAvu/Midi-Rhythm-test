@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicalNote: 5
-  inputButton: 276
+  inputButton: 275
   NotePrefab: {fileID: 6362923451960482973, guid: 0b79f1f40c5aa5a46a4df39acb5a5e08, type: 3}
 --- !u!4 &471428415
 Transform:
@@ -290,7 +290,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 471428413}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicalNote: 7
-  inputButton: 275
+  inputButton: 276
   NotePrefab: {fileID: 5426223238144531478, guid: fdc8e580b7205594f9d250d5376e3349, type: 3}
 --- !u!4 &718213551
 Transform:
@@ -501,7 +501,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718213549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -578,7 +578,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542811940}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4327637, y: 0.20915663, z: -0.45088807}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -597,8 +597,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   songAudio: {fileID: 32253776}
-  inputDelay: 0
-  marginOfError: 0
+  inputDelay: 1
+  marginOfError: 2
   fileLocation: Ejemplillo.mid
   lanes:
   - {fileID: 471428414}

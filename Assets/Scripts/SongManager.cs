@@ -35,7 +35,6 @@ public class SongManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        NoteSpawnPointY = 6f; 
         ReadMidiFile();
     }
     private void ReadMidiFile()
@@ -61,7 +60,7 @@ public class SongManager : MonoBehaviour
     }
     public static double GetAudioSourceTime()
     {
-        return Instance.songAudio.timeSamples / Instance.songAudio.clip.frequency;
+        return (double)Instance.songAudio.timeSamples / Instance.songAudio.clip.frequency;
     }
 
     // Update is called once per frame
