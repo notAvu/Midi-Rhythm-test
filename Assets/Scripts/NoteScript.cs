@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NoteScript : MonoBehaviour
 {
+    Animator animator;
     private double instantiationTimestamp; //still have to figure aut how to label this better so it looks less confusing
     public float assignedTime;
     private double timeSienceInstantiated;
@@ -11,6 +12,7 @@ public class NoteScript : MonoBehaviour
     void Start()
     {
         instantiationTimestamp = SongManager.GetAudioSourceTime();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,5 +30,21 @@ public class NoteScript : MonoBehaviour
             //interpolates note position between spawn and despawn points.
             transform.position = Vector3.Lerp(new Vector3(transform.position.x, SongManager.Instance.NoteSpawnPointY,0) , new Vector3(transform.position.x, SongManager.Instance.NoteDespawnY, 0), t); 
         }
+    }
+    public void NoteHit()
+    {
+        if(animator != null)
+        {
+
+        animator.SetTrigger("Hit");
+        StartCoroutine("HitAnimation");
+        }
+    }
+    IEnumerator HitAnimation()
+    {
+        float animationDuration = 
+        animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        yield return new WaitForSeconds(animationDuration);
+        Destroy(this.gameObject);
     }
 }

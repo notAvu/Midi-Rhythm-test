@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicalNote: 5
-  inputButton: 275
+  inputButton: 274
   NotePrefab: {fileID: 6362923451960482973, guid: 0b79f1f40c5aa5a46a4df39acb5a5e08, type: 3}
 --- !u!4 &471428415
 Transform:
@@ -598,7 +598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   songAudio: {fileID: 32253776}
   inputDelay: 1
-  marginOfError: 2
+  marginOfError: 0.5
   fileLocation: Ejemplillo.mid
   lanes:
   - {fileID: 471428414}

@@ -38,8 +38,8 @@ public class Lane : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log($"spawnIndex: {spawnIndex}");
-        Debug.Log($"inputIndex: {inputIndex}");
+        //Debug.Log($"spawnIndex: {spawnIndex}");
+        //Debug.Log($"inputIndex: {inputIndex}");
         if(spawnIndex < noteTimestamps.Count)
         {
             if (SongManager.GetAudioSourceTime() >= noteTimestamps[spawnIndex] - SongManager.Instance.NoteTime) { 
@@ -61,19 +61,20 @@ public class Lane : MonoBehaviour
                 if(Math.Abs(audioTime - timeStamp) < marginOfError)
                 {
                     ScoreManager.Instance.NoteHit();
-                    Destroy(notes[inputIndex].gameObject);
+
+                    notes[inputIndex].NoteHit();
                     inputIndex++;
                 }
                 else
                 {
                     ScoreManager.Instance.NoteMissed();
-                    Debug.Log($"Hit inaccurate on {inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
+                    //Debug.Log($"Late Hit {inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
                 }
             }
             if (timeStamp + marginOfError <= audioTime)
             {
                 ScoreManager.Instance.NoteMissed();
-                print($"Missed {inputIndex} note");
+                print($"Missed {inputIndex} note lane {gameObject.name}");
                 inputIndex++;
             }
         }
