@@ -22,6 +22,9 @@ public class SongManager : MonoBehaviour
 
     [SerializeField]
     private Lane[] lanes;
+
+    [SerializeField]
+    private LongLane[] longLanes;
     [SerializeField]
     public float NoteSpawnPointY;
     [SerializeField]
@@ -45,6 +48,10 @@ public class SongManager : MonoBehaviour
         notes.CopyTo(noteArray,0);
 
         foreach(var lane in lanes)
+        {
+            lane.SetTimestamps(noteArray);
+        }
+        foreach (var lane in longLanes)
         {
             lane.SetTimestamps(noteArray);
         }

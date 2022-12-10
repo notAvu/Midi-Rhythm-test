@@ -26,13 +26,13 @@ public class ScoreManager : MonoBehaviour
     public void NoteHit()
     {
         comboCount++;
-        Debug.Log($"combo count: {comboCount}");
+        //Debug.Log($"combo count: {comboCount}");
         //Instance.hitSFX.Play();
     }
     public void NoteMissed()
     {
         comboCount = 0;
-        Debug.Log("Miss");
+        //Debug.Log("Miss");
         //Instance.missSFX.Play();
     }
 }

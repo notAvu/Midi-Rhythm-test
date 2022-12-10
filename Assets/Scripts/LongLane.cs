@@ -5,7 +5,7 @@ using UnityEngine;
 using Melanchall.DryWetMidi.Interaction;
 using System;
 
-public class Lane : MonoBehaviour
+public class LongLane : MonoBehaviour
 {
     [SerializeField]
     private Melanchall.DryWetMidi.MusicTheory.NoteName musicalNote; //Lanes are asinged to each note of the piano roll so, for example, G notes are a lane, A# notes are another lane
@@ -13,8 +13,10 @@ public class Lane : MonoBehaviour
     private KeyCode inputButton;
 
     public GameObject NotePrefab;
+    public GameObject LongNotePrefab;
     List<NoteScript> notes;
     private List<double> noteTimestamps;
+    private Dictionary<double, float> tsLengthMap;//double = timeStamp float = noteLength
 
     int spawnIndex = 0;
     int inputIndex = 0;
@@ -23,6 +25,7 @@ public class Lane : MonoBehaviour
     {
         notes = new List<NoteScript>();
         noteTimestamps = new List<double>();
+        tsLengthMap = new Dictionary<double, float>();
     }
     public void SetTimestamps(Note[] array)
     {
@@ -32,6 +35,15 @@ public class Lane : MonoBehaviour
             {
                 var metricTimeSpan = TimeConverter.ConvertTo<MetricTimeSpan>(note.Time, SongManager.midiFile.GetTempoMap());
                 noteTimestamps.Add((double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f);
+                //Debug.Log("index " + (double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f + "length " + note.Length);
+                if (note.Length > 64)
+                {
+                    tsLengthMap.Add((double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f, note.Length);
+                }
+                else
+                {
+                    tsLengthMap.Add((double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f, 1f);
+                }
             }
         }
         //Debug.Log(noteTimestamps.Count);
@@ -44,10 +56,22 @@ public class Lane : MonoBehaviour
         {
             if (SongManager.GetAudioSourceTime() >= noteTimestamps[spawnIndex] - SongManager.Instance.NoteTime)
             {
-                var note = Instantiate(NotePrefab, transform);
+                float uwu;
+                tsLengthMap.TryGetValue(noteTimestamps[spawnIndex], out uwu);
+                GameObject note;
+                if (uwu > 1)
+                {
+                    note = Instantiate(LongNotePrefab, transform);
+                }
+                else
+                {
+                    note = Instantiate(NotePrefab, transform);
+                }
+                var noteScript = note.GetComponent<NoteScript>();
                 note.GetComponent<SpriteRenderer>().enabled = true;
-                note.GetComponent<NoteScript>().assignedTime = (float)noteTimestamps[spawnIndex];
-                notes.Add(note.GetComponent<NoteScript>());
+                noteScript.noteLength = uwu;
+                noteScript.assignedTime = (float)noteTimestamps[spawnIndex];
+                notes.Add(noteScript);
                 spawnIndex++;
             }
         }
