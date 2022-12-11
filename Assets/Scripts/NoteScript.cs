@@ -24,8 +24,6 @@ public class NoteScript : MonoBehaviour
         //Debug.Log(assignedTime);
         timeSienceInstantiated = SongManager.GetAudioSourceTime() - instantiationTimestamp;
         float t = (float)(timeSienceInstantiated / (SongManager.Instance.NoteTime * 2));
-        //Debug.Log("T: "+t);
-        //Debug.Log("time since instantiated: " + timeSienceInstantiated+noteLength);
         if (t > 1)
         {
             Destroy(gameObject);

@@ -16,7 +16,7 @@ public class LongLane : MonoBehaviour
     public GameObject LongNotePrefab;
     List<NoteScript> notes;
     private List<double> noteTimestamps;
-    private Dictionary<double, float> tsLengthMap;//double = timeStamp float = noteLength
+    List<float> noteLengthList;
 
     int spawnIndex = 0;
     int inputIndex = 0;
@@ -25,7 +25,8 @@ public class LongLane : MonoBehaviour
     {
         notes = new List<NoteScript>();
         noteTimestamps = new List<double>();
-        tsLengthMap = new Dictionary<double, float>();
+        //tsLengthMap = new Dictionary<double, float>();
+        noteLengthList = new List<float>();
     }
     public void SetTimestamps(Note[] array)
     {
@@ -38,11 +39,11 @@ public class LongLane : MonoBehaviour
                 //Debug.Log("index " + (double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f + "length " + note.Length);
                 if (note.Length > 64)
                 {
-                    tsLengthMap.Add((double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f, note.Length/64f);
+                    noteLengthList.Add(note.Length / 64f);
                 }
                 else
                 {
-                    tsLengthMap.Add((double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f, 1f);
+                    noteLengthList.Add(1f);
                 }
             }
         }
@@ -50,30 +51,28 @@ public class LongLane : MonoBehaviour
     }
     void Update()
     {
-        //Debug.Log($"spawnIndex: {spawnIndex}");
-        //Debug.Log($"inputIndex: {inputIndex}");
         if (spawnIndex < noteTimestamps.Count)
         {
             if (SongManager.GetAudioSourceTime() >= noteTimestamps[spawnIndex] - SongManager.Instance.NoteTime)
             {
-                float uwu;
-                tsLengthMap.TryGetValue(noteTimestamps[spawnIndex], out uwu);
+                float uwu = noteLengthList[spawnIndex];
                 GameObject note;
-                if (uwu > 2)
-                {
-                    note = Instantiate(LongNotePrefab, transform);
-                    var endNotePosition = note.GetComponent<LongNoteScript>().endNote.transform.position;
-                    note.GetComponent<LongNoteScript>().endNote.transform.localPosition = new Vector2(0, transform.position.y - uwu);
-                    note.GetComponent<LongNoteScript>().noteLength = uwu;
-                }
-                else
+                NoteScript noteScript;
+                if (uwu <= 1)
                 {
                     note = Instantiate(NotePrefab, transform);
                     //note.GetComponent<NoteScript>().noteLength = uwu;
+                    noteScript = note.GetComponent<NoteScript>();
+                    noteScript.assignedTime = (float)noteTimestamps[spawnIndex];
                 }
-                var noteScript = note.GetComponent<NoteScript>();
+                else
+                {
+                    note = Instantiate(LongNotePrefab, transform);
+                    note.GetComponent<LongNoteScript>().noteLength = uwu;
+                    noteScript = note.GetComponent<LongNoteScript>();
+                    noteScript.assignedTime = (float)noteTimestamps[spawnIndex];
+                }
                 note.GetComponent<SpriteRenderer>().enabled = true;
-                noteScript.assignedTime = (float)noteTimestamps[spawnIndex];
                 notes.Add(noteScript);
                 spawnIndex++;
             }

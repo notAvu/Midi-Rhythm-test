@@ -51,9 +51,9 @@ public class SongManager : MonoBehaviour
         {
             lane.SetTimestamps(noteArray);
         }
-        foreach (var lane in longLanes)
+        foreach (var longLane in longLanes)
         {
-            lane.SetTimestamps(noteArray);
+            longLane.SetTimestamps(noteArray);
         }
         //manipulation here
         Invoke(nameof(StartSong), songDelay);
@@ -63,7 +63,6 @@ public class SongManager : MonoBehaviour
     private void StartSong()
     {
         songAudio.Play();
-
     }
     public static double GetAudioSourceTime()
     {
