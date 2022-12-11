@@ -5,9 +5,9 @@ using UnityEngine;
 public class NoteScript : MonoBehaviour
 {
     Animator animator;
-    private double instantiationTimestamp; //still have to figure aut how to label this better so it looks less confusing
+    protected double instantiationTimestamp; //still have to figure aut how to label this better so it looks less confusing
     public float assignedTime;
-    private double timeSienceInstantiated;
+    protected double timeSienceInstantiated;
     [HideInInspector]
     public float noteLength;
 
@@ -15,7 +15,7 @@ public class NoteScript : MonoBehaviour
     {
         instantiationTimestamp = SongManager.GetAudioSourceTime();
         animator = GetComponent<Animator>();
-        noteLength = noteLength / 64;
+        //noteLength = noteLength / 64;
     }
 
     // Update is called once per frame

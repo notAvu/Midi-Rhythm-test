@@ -38,7 +38,7 @@ public class LongLane : MonoBehaviour
                 //Debug.Log("index " + (double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f + "length " + note.Length);
                 if (note.Length > 64)
                 {
-                    tsLengthMap.Add((double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f, note.Length);
+                    tsLengthMap.Add((double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f, note.Length/64f);
                 }
                 else
                 {
@@ -59,17 +59,20 @@ public class LongLane : MonoBehaviour
                 float uwu;
                 tsLengthMap.TryGetValue(noteTimestamps[spawnIndex], out uwu);
                 GameObject note;
-                if (uwu > 1)
+                if (uwu > 2)
                 {
                     note = Instantiate(LongNotePrefab, transform);
+                    var endNotePosition = note.GetComponent<LongNoteScript>().endNote.transform.position;
+                    note.GetComponent<LongNoteScript>().endNote.transform.localPosition = new Vector2(0, transform.position.y - uwu);
+                    note.GetComponent<LongNoteScript>().noteLength = uwu;
                 }
                 else
                 {
                     note = Instantiate(NotePrefab, transform);
+                    //note.GetComponent<NoteScript>().noteLength = uwu;
                 }
                 var noteScript = note.GetComponent<NoteScript>();
                 note.GetComponent<SpriteRenderer>().enabled = true;
-                noteScript.noteLength = uwu;
                 noteScript.assignedTime = (float)noteTimestamps[spawnIndex];
                 notes.Add(noteScript);
                 spawnIndex++;
