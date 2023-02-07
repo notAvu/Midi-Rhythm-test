@@ -4,7 +4,7 @@ Following tutorials to learn about midi management for rhythm games
 
 TODO: 
 Plantear el parseo del midi a un formato que instancie las notas en la escena a cierta distancia dada por los beats y seguir desarrollando entorno a eso
-
+Establecer una regla para las distancias entre objetos basado en los bpm
 
 RECURSOS: <br>
 Osu github repo: https://github.com/ppy/osu
