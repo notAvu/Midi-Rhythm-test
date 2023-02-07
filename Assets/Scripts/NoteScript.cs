@@ -5,11 +5,9 @@ using UnityEngine;
 public class NoteScript : MonoBehaviour
 {
     Animator animator;
-    protected double instantiationTimestamp; //still have to figure aut how to label this better so it looks less confusing
+    public double instantiationTimestamp; //still have to figure aut how to label this better so it looks less confusing
     public float assignedTime;
     protected double timeSienceInstantiated;
-    [HideInInspector]
-    public float noteLength;
 
     void Start()
     {

@@ -12,6 +12,7 @@ public class LongLane : MonoBehaviour
     [SerializeField]
     private KeyCode inputButton;
 
+
     public GameObject NotePrefab;
     public GameObject LongNotePrefab;
     List<NoteScript> notes;
@@ -68,7 +69,7 @@ public class LongLane : MonoBehaviour
                 else
                 {
                     note = Instantiate(LongNotePrefab, transform);
-                    note.GetComponent<LongNoteScript>().noteLength = uwu;
+                    //note.GetComponent<LongNoteScript>().noteLength = uwu;
                     noteScript = note.GetComponent<LongNoteScript>();
                     noteScript.assignedTime = (float)noteTimestamps[spawnIndex];
                 }

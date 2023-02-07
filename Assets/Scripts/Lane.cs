@@ -58,6 +58,8 @@ public class Lane : MonoBehaviour
             double audioTime = SongManager.GetAudioSourceTime() - (SongManager.Instance.inputDelay / 1000.0);
 
             if (Input.GetKeyDown(inputButton))
+                //maybe check keydown only for 1hit notes and getkey for long notes 
+                // UPDATE : There may not be necessary to check every note as long notes have nested notes and you should only check nested notes of active long notes 
             {
                 if (Math.Abs(audioTime - timeStamp) < marginOfError)
                 {
