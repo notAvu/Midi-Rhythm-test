@@ -16,6 +16,10 @@ public class SongManager : MonoBehaviour
     [SerializeField]
     public double marginOfError; //seconds 
 
+    public double bpm;
+    //duration of a beat in seconds (Should be calculated from bpm)
+    public double crochet;
+
     [SerializeField]
     private string fileLocation; //midi file location in streamingassets 
     public static MidiFile midiFile; //loaded midi file
@@ -67,11 +71,5 @@ public class SongManager : MonoBehaviour
     public static double GetAudioSourceTime()
     {
         return (double)Instance.songAudio.timeSamples / Instance.songAudio.clip.frequency;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

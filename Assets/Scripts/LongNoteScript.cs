@@ -42,11 +42,11 @@ public class LongNoteScript : NoteScript
     {
         get => StartTime + Duration;
         set => Duration = value - StartTime;
-
     }
+    //time between ticks 
     private double tickSpacing;
+    //number of ticks per beat 
     private double tickRate;
-    private double beatLength;
     public GameObject endNote;
     private void Awake()
     {
@@ -64,7 +64,7 @@ public class LongNoteScript : NoteScript
         float t = (float)(timeSienceInstantiated / (SongManager.Instance.NoteTime * 2));
         if (t > 1)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
         else
         {
@@ -82,8 +82,19 @@ public class LongNoteScript : NoteScript
     {
         //In Osu! Mania nested notes have HoldNoteTicks, normal notes nested inside long notes but with no HitWindows(I'm guessing always "perfect")
         //Other rhythm games have similar system, where long notes have several ticks between the head and tail note, so I guess Osu Mania is a good reference point for this game 
-
-        tickSpacing = beatLength / tickRate;
-
+        
+        //Still have to figure out where to set
+        AddNestedNote(HeadNote);
+        AddNestedNote(TailNote);
+        tickSpacing = SongManager.Instance.crochet / tickRate;
+        for(double i = StartTime+ tickSpacing; i <= EndTime-tickSpacing; i+=tickSpacing)
+        {
+            //Create a new note class for ticks? 
+            //AddNestedNote();
+        }
+    }
+    private void AddNestedNote(NoteScript note)
+    {
+        
     }
 }
