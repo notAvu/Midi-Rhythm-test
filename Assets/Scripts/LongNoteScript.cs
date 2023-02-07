@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LongNoteScript : NoteScript
 {
+    [SerializeField]
+    private GameObject tickPrefab;
     public GameObject HeadNoteGO { get; set; }
     public GameObject TailNoteGO { get; set; }
     public NoteScript HeadNote { get; private set; }
@@ -16,7 +18,7 @@ public class LongNoteScript : NoteScript
         set
         {
             Duration = value;
-            if(TailNote != null)
+            if (TailNote != null)
             {
                 TailNote.instantiationTimestamp = EndTime;
             }
@@ -74,7 +76,7 @@ public class LongNoteScript : NoteScript
     }
     private void SetLineRendererPoints()
     {
-        var bar = gameObject.GetComponent<LineRenderer>();  
+        var bar = gameObject.GetComponent<LineRenderer>();
         bar.SetPosition(0, HeadNoteGO.transform.position);
         bar.SetPosition(1, TailNoteGO.transform.position);
     }
@@ -82,19 +84,23 @@ public class LongNoteScript : NoteScript
     {
         //In Osu! Mania nested notes have HoldNoteTicks, normal notes nested inside long notes but with no HitWindows(I'm guessing always "perfect")
         //Other rhythm games have similar system, where long notes have several ticks between the head and tail note, so I guess Osu Mania is a good reference point for this game 
-        
+
         //Still have to figure out where to set
-        AddNestedNote(HeadNote);
-        AddNestedNote(TailNote);
+        AddNestedNote(HeadNoteGO);
+        AddNestedNote(TailNoteGO);
         tickSpacing = SongManager.Instance.crochet / tickRate;
-        for(double i = StartTime+ tickSpacing; i <= EndTime-tickSpacing; i+=tickSpacing)
+        for (double ts = StartTime + tickSpacing; ts <= EndTime - tickSpacing; ts += tickSpacing)
         {
             //Create a new note class for ticks? 
-            //AddNestedNote();
+            var newTick = Instantiate(tickPrefab);
+            newTick.GetComponent<NoteScript>().instantiationTimestamp = ts;
+            //
+            AddNestedNote(newTick);
         }
     }
-    private void AddNestedNote(NoteScript note)
+    private void AddNestedNote(GameObject note)
     {
-        
+        if (note != null)
+            NestedNotes.Add(note);
     }
 }
