@@ -5,6 +5,7 @@ using UnityEngine;
 public class NoteScript : MonoBehaviour
 {
     //TODO: ADD HIT WINDOWS TO NOTES (Set as a separate enum/class)
+    public string laneId;
     Animator animator;
     public double instantiationTimestamp; //still have to figure aut how to label this better so it looks less confusing
     public float assignedTime;

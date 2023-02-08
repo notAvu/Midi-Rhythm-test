@@ -47,6 +47,7 @@ public class Lane : MonoBehaviour
                 var note = Instantiate(NotePrefab, transform);
                 note.GetComponent<SpriteRenderer>().enabled = true;
                 note.GetComponent<NoteScript>().assignedTime = (float)noteTimestamps[spawnIndex];
+                note.GetComponent<NoteScript>().laneId = musicalNote.ToString();
                 notes.Add(note.GetComponent<NoteScript>());
                 spawnIndex++;
             }
