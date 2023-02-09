@@ -27,3 +27,10 @@ public class NoteObject : MonoBehaviour
         
     //}
 }
+public enum HitWindow
+{
+    PERFECT,
+    OK,
+    MEH,
+    MISS
+}

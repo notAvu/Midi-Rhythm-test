@@ -9,7 +9,7 @@ public class RhythmConductor : MonoBehaviour
 
     private int songBpm;
     private int notesPerBeat;
-    private float secondsPerBeat;//Should this be calculated for actual beats or chart beats (Subdivided)
+    private float secondsPerNote;//Should this be calculated for actual beats or chart beats (Subdivided)
 
     private double offset;
     private int columns;
@@ -27,14 +27,14 @@ public class RhythmConductor : MonoBehaviour
     {
         songAudio = GetComponent<AudioSource>();
         dpsTime = (float)AudioSettings.dspTime;
-        //secondsPerBeat = 60f / (songBpm*4);
-        secondsPerBeat = 60f / songBpm ;
+        secondsPerNote = 60f / (songBpm * notesPerBeat);
+        //secondsPerBeat = 60f / songBpm ;
         songAudio.Play();
     }
     private void Update()
     {
         songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime)*songAudio.pitch-offset);
-        songPosition = songPositionSeconds / secondsPerBeat;
+        songPosition = songPositionSeconds / secondsPerNote;
     }
     private void ReadBeatmapInfo()
     {
