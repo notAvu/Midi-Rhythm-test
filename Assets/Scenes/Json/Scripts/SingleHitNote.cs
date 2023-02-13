@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SingleHitNote : MonoBehaviour
 {
-    NoteObject hitObject;
+    public NoteObject noteData;
     public float InstantiationTimestamp;
     public float NoteTimestamp;
     private float TimeSienceInstantiation;
-    RhythmConductor conductor;
+    public RhythmConductor conductor { private get; set; }
     public int index;
     public static int lastIndex;
     private void Awake()
@@ -29,7 +29,7 @@ public class SingleHitNote : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else
+        else if(conductor.songPosition>= this.InstantiationTimestamp/conductor.secondsPerNote)
         {
             transform.position = Vector2.Lerp(new Vector2(gameObject.transform.position.x, 10), new Vector2(gameObject.transform.position.x, -6), t);
         }

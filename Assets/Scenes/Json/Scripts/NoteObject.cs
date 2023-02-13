@@ -9,7 +9,19 @@ public class NoteObject
     public int NoteIndex;
     public int Column;
     public NoteTypes Type;
-    public double NoteTimestamp { get; set; }
+
+    public NoteObject(NoteJson jsonData)
+    {
+        NoteInfo = jsonData;
+        try
+        {
+            this.ConvertNoteInfo();
+        }
+        catch
+        {
+            Debug.Log("Couldn't parse JSON data to note data");
+        }
+    }
     public void ConvertNoteInfo()
     {
         LinesPerBeat = NoteInfo.LPB;
