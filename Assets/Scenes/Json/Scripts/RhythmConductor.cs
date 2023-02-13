@@ -35,6 +35,8 @@ public class RhythmConductor : MonoBehaviour
         dpsTime = (float)AudioSettings.dspTime;
         secondsPerNote = 60f / (songBpm * notesPerBeat);
         //secondsPerBeat = 60f / songBpm ;
+        InstantiateWholeMap(notes);
+
         songAudio.Play();
     }
     private void Update()
@@ -42,7 +44,7 @@ public class RhythmConductor : MonoBehaviour
         songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime) - offset);
         songPosition = songPositionSeconds / secondsPerNote;
         //Debug.Log($"songPosition: {songPosition}");
-        if ((int)lastBeat % 4 == 0 && lastBeat > 0 && (int)lastBeat != SingleHitNote.lastIndex)
+        if (lastBeat > 0 && (int)lastBeat != SingleHitNote.lastIndex)
         {
             SingleHitNote.lastIndex = (int)lastBeat;
             SpawnBar();
@@ -53,6 +55,7 @@ public class RhythmConductor : MonoBehaviour
             //Debug.Log($"LastBeat: {(int)lastBeat}");
         }
     }
+    List<NoteObject> notes = new List<NoteObject>();
     private void ReadBeatmapInfo()
     {
         JsonBeatmapParser jsonParser = new JsonBeatmapParser();
@@ -61,9 +64,7 @@ public class RhythmConductor : MonoBehaviour
         notesPerBeat = beatmapInfo.notes[0].LPB;
         offset = (float)beatmapInfo.offset / 1000f;
         columns = beatmapInfo.maxBlock;
-        List<NoteObject> notes = new List<NoteObject>();
         beatmapInfo.notes.ToList().ForEach(item => { var noteObj = new NoteObject(item); notes.Add(noteObj); });
-        InstantiateWholeMap(notes);
     }
     #region testing shit
     [SerializeField]

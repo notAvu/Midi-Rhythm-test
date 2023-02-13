@@ -29,7 +29,7 @@ public class SingleHitNote : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else if(conductor.songPosition>= this.InstantiationTimestamp/conductor.secondsPerNote)
+        else if(conductor.lastBeat>= this.InstantiationTimestamp/conductor.secondsPerNote)
         {
             transform.position = Vector2.Lerp(new Vector2(gameObject.transform.position.x, 10), new Vector2(gameObject.transform.position.x, -6), t);
         }
