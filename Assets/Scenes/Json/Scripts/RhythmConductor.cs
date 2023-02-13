@@ -79,12 +79,12 @@ public class RhythmConductor : MonoBehaviour
         List<SingleHitNote> singleHitNotes = new List<SingleHitNote>();
         foreach (var note in singles)
         {
-            var goNote= Instantiate(singleNotePrefab);
-            goNote.GetComponent<SingleHitNote>().noteData = note;
-            goNote.GetComponent<SingleHitNote>().NoteTimestamp = goNote.GetComponent<SingleHitNote>().noteData.NoteIndex * secondsPerNote + offset;
-            goNote.GetComponent<SingleHitNote>().InstantiationTimestamp = goNote.GetComponent<SingleHitNote>().NoteTimestamp - (secondsPerNote * 2);
+            var newNote = Instantiate(singleNotePrefab);
+            newNote.GetComponent<SingleHitNote>().noteData = note;
+            newNote.GetComponent<SingleHitNote>().NoteTimestamp = newNote.GetComponent<SingleHitNote>().noteData.NoteIndex * secondsPerNote + offset;
+            newNote.GetComponent<SingleHitNote>().InstantiationTimestamp = newNote.GetComponent<SingleHitNote>().NoteTimestamp - (secondsPerNote * 8);
         }
-        
+        Debug.Log(singles.Count);
     }
 
     private void SpawnBar()
