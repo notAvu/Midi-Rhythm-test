@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jsonFile: {fileID: 4900000, guid: c3b55d075e0890e4b9f423badd96c83a, type: 3}
+  beatBar: {fileID: 7218751101622929117, guid: 848f57c41b995244c82ac0a5421a6578, type: 3}
   songPosition: 0
   songPositionSeconds: 0
 --- !u!4 &203072781

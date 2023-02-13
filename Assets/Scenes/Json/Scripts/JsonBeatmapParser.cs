@@ -22,7 +22,7 @@ public class JsonBeatmapParser
         foreach (var note in parsedBeatmap.notes)
         {
             notes.Add(note);
-            Debug.Log("Note num: " + note.num);
+            //Debug.Log("Note num: " + note.num);
         }
         return parsedBeatmap;
     }
@@ -32,7 +32,7 @@ public class JsonBeatmapParser
         foreach (var note in parsedBeatmap.notes)
         {
             notes.Add(note);
-            Debug.Log("Note num: " + note.num);
+            //Debug.Log("Note num: " + note.num);
         }
         return parsedBeatmap;
     }

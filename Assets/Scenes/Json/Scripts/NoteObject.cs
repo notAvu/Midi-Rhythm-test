@@ -2,35 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoteObject : MonoBehaviour
+public class NoteObject
 {
-    public NoteJson noteInfo;
-    public int linesPerBeat;
-    public int noteIndex;
-    public int column;
-    public NoteTypes type;
+    public NoteJson NoteInfo;
+    public int LinesPerBeat;
+    public int NoteIndex;
+    public int Column;
+    public NoteTypes Type;
     public double NoteTimestamp { get; set; }
     public void ConvertNoteInfo()
     {
-        linesPerBeat = noteInfo.LPB;
-        noteIndex = noteInfo.num;
-        column = noteInfo.block;
-        type = noteInfo.type switch
+        LinesPerBeat = NoteInfo.LPB;
+        NoteIndex = NoteInfo.num;
+        Column = NoteInfo.block;
+        Type = NoteInfo.type switch
         {
             1 => NoteTypes.SingleHit,
             2 => NoteTypes.LongNote,
             _ => throw new System.NotImplementedException()
         };
     }
-    //private void ParseNoteType(int typeIndex)
-    //{
-        
-    //}
 }
 public enum HitWindow
 {
     PERFECT,
     OK,
-    MEH,
+    ALMOST,
     MISS
 }
