@@ -5,23 +5,30 @@ using UnityEngine;
 //Quick skecth of the longNoteScript 
 public class LongNote : MonoBehaviour
 {
-    NoteObject noteData;
+    public NoteObject noteData;
     GameObject headNote;
-    float StartTime;
-    float EndTime;
-    GameObject tailNote;
-    List<GameObject> nestedNotes;
+    RhythmConductor conductor;
+    public float StartTime;//TODO: APPLY THE PATTERN OsuMania USES
+    public GameObject tailNote;
+    public float EndTime;
+    public List<GameObject> nestedNotes;
     LineRenderer lineRenderer;
-    GameObject tickNotePrefab;
+    [SerializeField]
+    private GameObject TickNotePrefab;
     private void Awake()
     {
+        conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
         nestedNotes = new List<GameObject>();
         LineRenderer lineRenderer = GetComponent<LineRenderer>();
         headNote = gameObject;//change for better structure
+        InstantiateNestedNotes();
     }
     private void Start()
     {
-        InstantiateNestedNotes();
+    }
+    private void Update()
+    {
+        SetLinerendererPoints();
     }
     private void InstantiateNestedNotes()
     {
@@ -29,8 +36,8 @@ public class LongNote : MonoBehaviour
         noteData.nestedNotes.RemoveAt(noteData.nestedNotes.Count - 1);//Do I need this?
         foreach (var nested in noteData.nestedNotes)
         {
-            GameObject note = Instantiate(tickNotePrefab);
-            note.GetComponent<SingleHitNote>().noteData = nested;
+            GameObject note = Instantiate(TickNotePrefab);
+            note.GetComponent<TickNoteScript>().noteData = nested;
             //TODO set timeStamps timestamp
             nestedNotes.Add(note);
         }
