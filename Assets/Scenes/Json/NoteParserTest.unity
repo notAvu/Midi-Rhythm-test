@@ -160,6 +160,7 @@ MonoBehaviour:
   songPositionSeconds: 0
   lastBeat: 0
   singleNotePrefab: {fileID: 6362923451960482973, guid: 0b79f1f40c5aa5a46a4df39acb5a5e08, type: 3}
+  longNotePrefab: {fileID: 1256314851177894517, guid: 9d51235f733021d41a4389bcbc219aed, type: 3}
 --- !u!4 &203072781
 Transform:
   m_ObjectHideFlags: 0
