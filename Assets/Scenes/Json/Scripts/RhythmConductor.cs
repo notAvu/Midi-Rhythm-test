@@ -36,7 +36,6 @@ public class RhythmConductor : MonoBehaviour
         secondsPerNote = 60f / (songBpm * notesPerBeat);
         //secondsPerBeat = 60f / songBpm ;
         InstantiateWholeMap(notes);
-
         songAudio.Play();
     }
     private void Update()
@@ -87,7 +86,6 @@ public class RhythmConductor : MonoBehaviour
         }
         Debug.Log(singles.Count);
     }
-
     private void SpawnBar()
     {
         var uwu = Instantiate(beatBar);

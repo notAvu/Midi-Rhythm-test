@@ -9,19 +9,35 @@ public class NoteObject
     public int NoteIndex;
     public int Column;
     public NoteTypes Type;
+    public List<NoteObject> nestedNotes;
 
     public NoteObject(NoteJson jsonData)
     {
         NoteInfo = jsonData;
         try
         {
-            this.ConvertNoteInfo();
+            ConvertNoteInfo();
+            if (Type == NoteTypes.LongNote)
+            {
+                ConvertNestedNotes();
+            }
         }
         catch
         {
             Debug.Log("Couldn't parse JSON data to note data");
         }
     }
+
+    private void ConvertNestedNotes()
+    {
+        nestedNotes = new List<NoteObject>();
+        foreach (var nestedJson in NoteInfo.notes)
+        {
+            var nextNote = new NoteObject(nestedJson);
+            nestedNotes.Add(nextNote);
+        }
+    }
+
     public void ConvertNoteInfo()
     {
         LinesPerBeat = NoteInfo.LPB;

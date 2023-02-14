@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class SingleHitNote : MonoBehaviour
 {
+    //TODO Get position and instantiation from lanes 
     public NoteObject noteData;
     public float InstantiationTimestamp;
     public float NoteTimestamp;
     private float TimeSienceInstantiation;
-    public RhythmConductor conductor { private get; set; }
+    public RhythmConductor conductor { private get; set; } //use this to set instantiation ts and note ts
+    #region trash to clean
     public int index;
     public static int lastIndex;
+    #endregion
     private void Awake()
     {
         conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
