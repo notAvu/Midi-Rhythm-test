@@ -69,6 +69,7 @@ public class RhythmConductor : MonoBehaviour
     [SerializeField]
     [Header("Single note (test)")]
     private GameObject singleNotePrefab;
+    [SerializeField]
     [Header("Long note (test)")]
     private GameObject longNotePrefab;
     /// <summary>
@@ -77,7 +78,7 @@ public class RhythmConductor : MonoBehaviour
     /// <param name="notes"></param>
     private void InstantiateWholeMap(List<NoteObject> notes)
     {
-        List<NoteObject> singles = notes.Where(not => not.Type == NoteTypes.SingleHit).ToList();
+        List<NoteObject> singles = notes/*.Where(not => not.Type == NoteTypes.SingleHit).ToList()*/;
         List<SingleHitNote> singleHitNotes = new List<SingleHitNote>();
         foreach (var note in singles)
         {
@@ -92,13 +93,15 @@ public class RhythmConductor : MonoBehaviour
             {
                 var longNoteHead = Instantiate(longNotePrefab);
                 longNoteHead.GetComponent<LongNote>().noteData = note;
+                longNoteHead.GetComponent<LongNote>().InstantiateNestedNotes();
                 longNoteHead.GetComponent<LongNote>().StartTime = longNoteHead.GetComponent<LongNote>().noteData.NoteIndex * secondsPerNote + offset;
-                longNoteHead.GetComponent<LongNote>().EndTime = longNoteHead.GetComponent<LongNote>().tailNote.GetComponent<TickNoteScript>().noteData.NoteIndex * secondsPerNote + offset;
+                longNoteHead.GetComponent<LongNote>().InstantiationTimestamp= longNoteHead.GetComponent<LongNote>().StartTime - (secondsPerNote * 8);
                 longNoteHead.GetComponent<LongNote>().nestedNotes.ForEach(nested =>
                 {
                     nested.GetComponent<TickNoteScript>().NoteTimestamp = nested.GetComponent<TickNoteScript>().noteData.NoteIndex * secondsPerNote + offset;
                     nested.GetComponent<SingleHitNote>().InstantiationTimestamp = nested.GetComponent<SingleHitNote>().NoteTimestamp - (secondsPerNote * 8);
                 });
+                longNoteHead.GetComponent<LongNote>().EndTime = longNoteHead.GetComponent<LongNote>().tailNote.GetComponent<TickNoteScript>().NoteTimestamp;
             }
         }
         Debug.Log(singles.Count);

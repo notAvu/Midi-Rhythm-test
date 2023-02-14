@@ -17,7 +17,7 @@ public class NoteObject
         try
         {
             ConvertNoteInfo();
-            if (Type == NoteTypes.LongNote)
+            if (this.Type == NoteTypes.LongNote)
             {
                 ConvertNestedNotes();
             }

@@ -25,7 +25,7 @@ public class TickNoteScript : MonoBehaviour
         Debug.Log(t);
         if (t > 1)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
         else if (conductor.lastBeat >= this.InstantiationTimestamp / conductor.secondsPerNote)
         {
