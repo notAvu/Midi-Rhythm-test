@@ -137,8 +137,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
+        time: 0.005584717
+        value: 0.1194973
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -197,4 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b84f5abcf22f94c9a127c086a55d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InstantiationTimestamp: 0
+  StartTime: 0
+  tailNote: {fileID: 0}
+  EndTime: 0
+  nestedNotes: []
   TickNotePrefab: {fileID: 5740369256308155500, guid: 0ad6594d68b23e74ca3b3902a457c824, type: 3}

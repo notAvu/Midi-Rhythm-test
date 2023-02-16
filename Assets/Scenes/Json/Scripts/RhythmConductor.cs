@@ -43,7 +43,7 @@ public class RhythmConductor : MonoBehaviour
         songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime) - offset);
         songPosition = songPositionSeconds / secondsPerNote;
         //Debug.Log($"songPosition: {songPosition}");
-        if (lastBeat > 0 && (int)lastBeat != SingleHitNote.lastIndex)
+        if (lastBeat > 0 && (int)lastBeat != SingleHitNote.lastIndex && lastBeat%8==0)
         {
             SingleHitNote.lastIndex = (int)lastBeat;
             SpawnBar();
@@ -99,7 +99,7 @@ public class RhythmConductor : MonoBehaviour
                 longNoteHead.GetComponent<LongNote>().nestedNotes.ForEach(nested =>
                 {
                     nested.GetComponent<TickNoteScript>().NoteTimestamp = nested.GetComponent<TickNoteScript>().noteData.NoteIndex * secondsPerNote + offset;
-                    nested.GetComponent<SingleHitNote>().InstantiationTimestamp = nested.GetComponent<SingleHitNote>().NoteTimestamp - (secondsPerNote * 8);
+                    nested.GetComponent<TickNoteScript>().InstantiationTimestamp = nested.GetComponent<TickNoteScript>().NoteTimestamp - (secondsPerNote * 8);
                 });
                 longNoteHead.GetComponent<LongNote>().EndTime = longNoteHead.GetComponent<LongNote>().tailNote.GetComponent<TickNoteScript>().NoteTimestamp;
             }

@@ -13,19 +13,20 @@ public class LongNote : MonoBehaviour
     public GameObject tailNote;
     public float EndTime;
     public List<GameObject> nestedNotes;
-    LineRenderer lineRenderer;
+    private LineRenderer lineRenderer;
     [SerializeField]
     private GameObject TickNotePrefab;
     private void Awake()
     {
+        this.gameObject.transform.position = new Vector3(0, 6, 0);
         conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
-        LineRenderer lineRenderer = GetComponent<LineRenderer>();
     }
     private void Start()
     {
+        lineRenderer = GetComponent<LineRenderer>();
         headNote = gameObject;//change for better structure
     }
-    private void Update()
+    private void LateUpdate()
     {
         SetLinerendererPoints();
     }
@@ -35,20 +36,21 @@ public class LongNote : MonoBehaviour
         foreach (var nested in noteData.nestedNotes)
         {
             GameObject note = Instantiate(TickNotePrefab);
-            note.transform.SetParent(gameObject.transform);
+            //note.transform.SetParent(gameObject.transform);
             note.GetComponent<TickNoteScript>().noteData = nested;
-            //TODO set timeStamps timestamp
             nestedNotes.Add(note);
         }
         tailNote = nestedNotes[nestedNotes.Count - 1];
     }
     private void SetLinerendererPoints()
     {
-        lineRenderer.SetPosition(0, headNote.transform.position);
-        for (int i = 0; i < nestedNotes.Count; i++)
+        lineRenderer.positionCount = nestedNotes.Count;
+        lineRenderer.SetPosition(lineRenderer.positionCount-1, headNote.transform.position);
+        for (int i = (nestedNotes.Count-1); i >= 0; i--)
         {
+
             var position = nestedNotes[i].GetComponent<Transform>().position;
-            lineRenderer.SetPosition(i + 1, position);
+            lineRenderer.SetPosition(i, position);
         }
     }
 }
