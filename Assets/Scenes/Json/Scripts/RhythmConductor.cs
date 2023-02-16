@@ -16,7 +16,7 @@ public class RhythmConductor : MonoBehaviour
     private int notesPerBeat;
     public float secondsPerNote;
 
-    private float offset;
+    public float offset;
     private int columns;
 
     public float songPosition;
@@ -24,18 +24,18 @@ public class RhythmConductor : MonoBehaviour
     public float lastBeat;
     private float dpsTime;
 
+    private List<SpawnColumn> lanes;
     private void Awake()
     {
         ReadBeatmapInfo();
     }
     private void Start()
     {
+        InstantiateWholeMap();
         lastBeat = 0;
         songAudio = GetComponent<AudioSource>();
         dpsTime = (float)AudioSettings.dspTime;
         secondsPerNote = 60f / (songBpm * notesPerBeat);
-        //secondsPerBeat = 60f / songBpm ;
-        InstantiateWholeMap(notes);
         songAudio.Play();
     }
     private void Update()
@@ -43,20 +43,24 @@ public class RhythmConductor : MonoBehaviour
         songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime) - offset);
         songPosition = songPositionSeconds / secondsPerNote;
         //Debug.Log($"songPosition: {songPosition}");
-        if (lastBeat > 0 && (int)lastBeat != SingleHitNote.lastIndex && lastBeat%8==0)
-        {
-            SingleHitNote.lastIndex = (int)lastBeat;
-            SpawnBar();
-        }
+        //if (lastBeat > 0 && (int)lastBeat != SingleHitNote.lastIndex && lastBeat% 8==0)
+        //{
+        //    //SingleHitNote.lastIndex = (int)lastBeat;
+        //    //SpawnBar();
+        //}
         if (songPosition > lastBeat + secondsPerNote)
         {
             lastBeat += secondsPerNote;
             //Debug.Log($"LastBeat: {(int)lastBeat}");
         }
     }
-    List<NoteObject> notes = new List<NoteObject>();
-    private void ReadBeatmapInfo()
+    /// <summary>
+    /// Reads the json file that contains the parameters of this song (bpm, offset, etc.) and notes 
+    /// </summary>
+    /// <returns>A list of <seealso cref="NoteObject"/>containing the data of every note in this beatmap</returns>
+    private List<NoteObject> ReadBeatmapInfo()
     {
+        List<NoteObject> notes = new List<NoteObject>();
         JsonBeatmapParser jsonParser = new JsonBeatmapParser();
         var beatmapInfo = jsonParser.ParseBeatmap(jsonFile);
         songBpm = beatmapInfo.BPM;
@@ -64,53 +68,28 @@ public class RhythmConductor : MonoBehaviour
         offset = (float)beatmapInfo.offset / 1000f;
         columns = beatmapInfo.maxBlock;
         beatmapInfo.notes.ToList().ForEach(item => { var noteObj = new NoteObject(item); notes.Add(noteObj); });
+        return notes;
     }
-    #region testing shit
-    [SerializeField]
-    [Header("Single note (test)")]
-    private GameObject singleNotePrefab;
-    [SerializeField]
-    [Header("Long note (test)")]
-    private GameObject longNotePrefab;
     /// <summary>
-    /// This shit should be done instantiated differently, this is just for testing
+    /// Instantiates columns and notes of this beat <br/>
+    /// <strong>
+    /// TODO: Instantiate columns dynamically
+    /// </strong>
     /// </summary>
-    /// <param name="notes"></param>
-    private void InstantiateWholeMap(List<NoteObject> notes)
+    private void InstantiateWholeMap()
     {
-        List<NoteObject> singles = notes/*.Where(not => not.Type == NoteTypes.SingleHit).ToList()*/;
-        List<SingleHitNote> singleHitNotes = new List<SingleHitNote>();
-        foreach (var note in singles)
+        ReadBeatmapInfo();
+        List<NoteObject> beatmapNotes = ReadBeatmapInfo();
+        foreach (var l in lanes)
         {
-            if (note.Type == NoteTypes.SingleHit)
-            {
-                var newNote = Instantiate(singleNotePrefab);
-                newNote.GetComponent<SingleHitNote>().noteData = note;
-                newNote.GetComponent<SingleHitNote>().NoteTimestamp = newNote.GetComponent<SingleHitNote>().noteData.NoteIndex * secondsPerNote + offset;
-                newNote.GetComponent<SingleHitNote>().InstantiationTimestamp = newNote.GetComponent<SingleHitNote>().NoteTimestamp - (secondsPerNote * 8);
-            }
-            else if (note.Type == NoteTypes.LongNote)
-            {
-                var longNoteHead = Instantiate(longNotePrefab);
-                longNoteHead.GetComponent<LongNote>().noteData = note;
-                longNoteHead.GetComponent<LongNote>().InstantiateNestedNotes();
-                longNoteHead.GetComponent<LongNote>().StartTime = longNoteHead.GetComponent<LongNote>().noteData.NoteIndex * secondsPerNote + offset;
-                longNoteHead.GetComponent<LongNote>().InstantiationTimestamp= longNoteHead.GetComponent<LongNote>().StartTime - (secondsPerNote * 8);
-                longNoteHead.GetComponent<LongNote>().nestedNotes.ForEach(nested =>
-                {
-                    nested.GetComponent<TickNoteScript>().NoteTimestamp = nested.GetComponent<TickNoteScript>().noteData.NoteIndex * secondsPerNote + offset;
-                    nested.GetComponent<TickNoteScript>().InstantiationTimestamp = nested.GetComponent<TickNoteScript>().NoteTimestamp - (secondsPerNote * 8);
-                });
-                longNoteHead.GetComponent<LongNote>().EndTime = longNoteHead.GetComponent<LongNote>().tailNote.GetComponent<TickNoteScript>().NoteTimestamp;
-            }
+            var columnNotes= beatmapNotes.Where(n => n.Column ==l.ColumnIndex).ToList();
+            l.InstantiateNotes(columnNotes);
         }
-        Debug.Log(singles.Count);
     }
-    private void SpawnBar()
-    {
-        var uwu = Instantiate(beatBar);
-        uwu.GetComponent<SingleHitNote>().index = (int)lastBeat;
-        uwu.GetComponent<SingleHitNote>().InstantiationTimestamp = lastBeat * secondsPerNote;
-    }
-    #endregion
+    //private void SpawnBar()//This is actually trash xd
+    //{
+    //    var uwu = Instantiate(beatBar);
+    //    uwu.GetComponent<SingleHitNote>().index = (int)lastBeat;
+    //    uwu.GetComponent<SingleHitNote>().InstantiationTimestamp = lastBeat * secondsPerNote;
+    //}
 }
