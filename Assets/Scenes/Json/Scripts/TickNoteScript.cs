@@ -19,7 +19,6 @@ public class TickNoteScript : MonoBehaviour
     {
         TimeSienceInstantiation = conductor.songPositionSeconds - InstantiationTimestamp;
         var t = TimeSienceInstantiation;
-        Debug.Log(t);
         if (t > 1)
         {
             //Destroy(gameObject);

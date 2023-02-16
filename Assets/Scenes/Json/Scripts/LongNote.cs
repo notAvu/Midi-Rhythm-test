@@ -3,75 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Quick skecth of the longNoteScript 
+/// <summary>
+/// <strong>
+/// TODO: make headNote fall (Implement instantiation ts and that kind of stuff)
+/// </strong>
+/// </summary>
 public class LongNote : MonoBehaviour
 {
-    public NoteObject noteData;
-    GameObject headNote;
+    #region Attributes
+    private RhythmConductor conductor;
+    public NoteObject NoteData;
     public SpawnColumn Column;
+    public GameObject TailNote;
+    public List<GameObject> NestedNotes;
     /// <summary>
     /// The timestamp at which this note starts moving in the screen
     /// </summary>
     public float InstantiationTimestamp;
+    public float TimeSinceInstantiation;
     public float StartTime;//TODO: APPLY THE PATTERN OsuMania USES
-    public GameObject tailNote;
     public float EndTime;
     /// <summary>
     /// The list of ticks that forms the long note
     /// </summary>
-    public List<GameObject> nestedNotes;
     private LineRenderer lineRenderer;
     [SerializeField]
     private GameObject TickNotePrefab;
+    #endregion
+    #region Unity Events
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        headNote = gameObject;//change for better structure
     }
     private void Update()
     {
-        //TimeSienceInstantiation = conductor.songPositionSeconds - InstantiationTimestamp;
-        //var t = TimeSienceInstantiation;
-        //Debug.Log(t);
-        //if (t > 1)
-        //{
-        //    //Destroy(gameObject);
-        //}
-        //else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
-        //{
-        //    transform.position = Vector2.Lerp(column.spawnPosition, column.despawnPosition, t);
-        //}
+        TimeSinceInstantiation = conductor.songPositionSeconds - InstantiationTimestamp;
+        var t = TimeSinceInstantiation;
+        Debug.Log(t);
+        if (t > 1)
+        {
+            //Destroy(gameObject);
+        }
+        else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
+        {
+            transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, t);
+        }
     }
     private void LateUpdate()
     {
         SetLinerendererPoints();
     }
+    #endregion
+    #region Note Instantiation
     /// <summary>
     /// Instantiates a TickNotePrefab(<seealso cref="TickNoteScript"/>) and sets is as part of the same long note
     /// </summary>
     public void InstantiateNestedNotes()
     {
-        nestedNotes = new List<GameObject>();
-        foreach (var nested in noteData.nestedNotes)
+        NestedNotes = new List<GameObject>();
+        foreach (var nested in NoteData.nestedNotes)
         {
             GameObject note = Instantiate(TickNotePrefab);
             //note.transform.SetParent(gameObject.transform);
             note.GetComponent<TickNoteScript>().noteData = nested;
             note.GetComponent<TickNoteScript>().Column = this.Column;
-            nestedNotes.Add(note);
+            NestedNotes.Add(note);
         }
-        tailNote = nestedNotes[nestedNotes.Count - 1];
+        TailNote = NestedNotes[NestedNotes.Count - 1];
     }
+    #endregion
+    #region Visuals related methods
     /// <summary>
     /// Sets the linerenderer points to connect the head note with every other object in the same long note  
     /// </summary>
     private void SetLinerendererPoints()
     {
-        lineRenderer.positionCount = nestedNotes.Count;
-        lineRenderer.SetPosition(lineRenderer.positionCount-1, headNote.transform.position);
-        for (int i = (nestedNotes.Count-1); i >= 0; i--)
+        lineRenderer.positionCount = NestedNotes.Count;
+        lineRenderer.SetPosition(lineRenderer.positionCount-1, gameObject.transform.position);
+        for (int i = (NestedNotes.Count-1); i >= 0; i--)
         {
-            var position = nestedNotes[i].GetComponent<Transform>().position;
+            var position = NestedNotes[i].GetComponent<Transform>().position;
             lineRenderer.SetPosition(i, position);
         }
     }
+    #endregion
 }

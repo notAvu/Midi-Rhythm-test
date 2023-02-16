@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpawnColumn : MonoBehaviour
 {
+    public const float COLUMN_WIDTH = 0;
+
     public int ColumnIndex;
     [SerializeField]
     public Vector2 spawnPosition;
@@ -59,19 +61,19 @@ public class SpawnColumn : MonoBehaviour
         var longNoteHead = Instantiate(longNotePrefab);
         longNoteHead.transform.position = spawnPosition;
         LongNote longNoteScript = longNoteHead.GetComponent<LongNote>();
-        longNoteScript.noteData = note;
+        longNoteScript.NoteData = note;
         longNoteScript.InstantiateNestedNotes();
-        longNoteScript.StartTime = longNoteScript.noteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
+        longNoteScript.StartTime = longNoteScript.NoteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
         longNoteScript.InstantiationTimestamp = longNoteScript.StartTime - (conductor.secondsPerNote * 8);
         longNoteScript.Column = this;
-        longNoteScript.nestedNotes.ForEach(nested =>
+        longNoteScript.NestedNotes.ForEach(nested =>
         {
             nested.GetComponent<TickNoteScript>().NoteTimestamp = nested.GetComponent<TickNoteScript>().noteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
             nested.GetComponent<TickNoteScript>().InstantiationTimestamp = nested.GetComponent<TickNoteScript>().NoteTimestamp - (conductor.secondsPerNote * 8);
             nested.GetComponent<TickNoteScript>().Column = this;
             notes.Add(nested);
         });
-        longNoteScript.EndTime = longNoteScript.tailNote.GetComponent<TickNoteScript>().NoteTimestamp;
+        longNoteScript.EndTime = longNoteScript.TailNote.GetComponent<TickNoteScript>().NoteTimestamp;
         notes.Add(longNoteHead);
     }
     /// <summary>

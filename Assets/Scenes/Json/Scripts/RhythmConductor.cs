@@ -43,11 +43,11 @@ public class RhythmConductor : MonoBehaviour
         songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime) - offset);
         songPosition = songPositionSeconds / secondsPerNote;
         //Debug.Log($"songPosition: {songPosition}");
-        //if (lastBeat > 0 && (int)lastBeat != SingleHitNote.lastIndex && lastBeat% 8==0)
-        //{
-        //    //SingleHitNote.lastIndex = (int)lastBeat;
-        //    //SpawnBar();
-        //}
+        if (lastBeat > 0 && (int)lastBeat != BeatBar.LastIndex && lastBeat % 8 == 0)
+        {
+            BeatBar.LastIndex = (int)lastBeat;
+            SpawnBar();
+        }
         if (songPosition > lastBeat + secondsPerNote)
         {
             lastBeat += secondsPerNote;
@@ -67,7 +67,7 @@ public class RhythmConductor : MonoBehaviour
         notesPerBeat = beatmapInfo.notes[0].LPB;
         offset = (float)beatmapInfo.offset / 1000f;
         columns = beatmapInfo.maxBlock;
-        beatmapInfo.notes.ToList().ForEach(item => { var noteObj = new NoteObject(item); notes.Add(noteObj); });
+        beatmapInfo.notes.ToList().ForEach(item => { var noteObj = new NoteObject(item); notes.Add(noteObj);});
         return notes;
     }
     /// <summary>
@@ -86,10 +86,10 @@ public class RhythmConductor : MonoBehaviour
             l.InstantiateNotes(columnNotes);
         }
     }
-    //private void SpawnBar()//This is actually trash xd
-    //{
-    //    var uwu = Instantiate(beatBar);
-    //    uwu.GetComponent<SingleHitNote>().index = (int)lastBeat;
-    //    uwu.GetComponent<SingleHitNote>().InstantiationTimestamp = lastBeat * secondsPerNote;
-    //}
+    private void SpawnBar()//This is actually trash xd
+    {
+        var uwu = Instantiate(beatBar);
+        uwu.GetComponent<BeatBar>().CurrentIndex = (int)lastBeat;
+        uwu.GetComponent<BeatBar>().InstantiationTimestamp = lastBeat * secondsPerNote;
+    }
 }
