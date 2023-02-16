@@ -8,6 +8,8 @@ TODO:
 - Cambiar el sistema de Lanes para que cada columna lleve su lane en el propio objeto, permitiendo cambiar las notas de Lane durante la cancion 
 
 RECURSOS: <br>
-Osu github repo: https://github.com/ppy/osu
+Osu! github repo: https://github.com/ppy/osu
 
 A Dance of fire and ice's creator guide on rhythm: https://web.archive.org/web/20200716132250/http://ludumdare.com/compo/2014/09/09/an-ld48-rhythm-game-part-2/
+
+NoteEditor by setchi (The tool I used to generate beatmaps and export them to a JSON file): https://github.com/setchi/NoteEditor
