@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BeatBar : MonoBehaviour
 {
+    [SerializeField]
+    private static float lineThickness; 
     public static int LastIndex { get; set; }
     public int CurrentIndex;//This is actually a very lazy solution to avoid duplicated bars instantiating from rhythmConductor
     public float InstantiationTimestamp;

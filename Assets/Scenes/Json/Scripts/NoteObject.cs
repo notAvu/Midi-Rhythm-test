@@ -27,7 +27,9 @@ public class NoteObject
             Debug.Log("Couldn't parse JSON data to note data");
         }
     }
-
+    /// <summary>
+    /// Gets the list of the note nodes that are children of the current note and creates a <seealso cref="NoteObject"/> list of them to add to the parent note's object
+    /// </summary>
     private void ConvertNestedNotes()
     {
         nestedNotes = new List<NoteObject>();
@@ -37,8 +39,11 @@ public class NoteObject
             nestedNotes.Add(nextNote);
         }
     }
-
-    public void ConvertNoteInfo()
+    /// <summary>
+    /// Converts the data from the <see cref="NoteInfo"/> to match this object's attributes
+    /// </summary>
+    /// <exception cref="System.NotImplementedException"></exception>
+    private void ConvertNoteInfo()
     {
         LinesPerBeat = NoteInfo.LPB;
         NoteIndex = NoteInfo.num;
@@ -51,6 +56,10 @@ public class NoteObject
         };
     }
 }
+
+/*
+ * Maybe this enum should be better implemented in a different file 
+ */
 public enum HitWindow
 {
     PERFECT,

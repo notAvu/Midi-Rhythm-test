@@ -86,7 +86,7 @@ public class RhythmConductor : MonoBehaviour
             l.InstantiateNotes(columnNotes);
         }
     }
-    private void SpawnBar()//This is actually trash xd
+    private void SpawnBar()//This is actually just trash xd
     {
         var uwu = Instantiate(beatBar);
         uwu.GetComponent<BeatBar>().CurrentIndex = (int)lastBeat;

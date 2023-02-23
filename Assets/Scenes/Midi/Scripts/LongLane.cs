@@ -29,9 +29,13 @@ public class LongLane : MonoBehaviour
         //tsLengthMap = new Dictionary<double, float>();
         noteLengthList = new List<float>();
     }
-    public void SetTimestamps(Note[] array)
+    /// <summary>
+    /// Sets the input timestamps for the notes in <paramref name="noteArray"/> 
+    /// </summary>
+    /// <param name="noteArray"></param>
+    public void SetTimestamps(Note[] noteArray)
     {
-        foreach (var note in array)
+        foreach (var note in noteArray)
         {
             if (note.NoteName == musicalNote)
             {
@@ -48,7 +52,6 @@ public class LongLane : MonoBehaviour
                 }
             }
         }
-        //Debug.Log(noteTimestamps.Count);
     }
     void Update()
     {
