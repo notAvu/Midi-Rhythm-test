@@ -12,7 +12,7 @@ public class SpawnColumn : MonoBehaviour
     [SerializeField]
     public Vector2 despawnPosition;
     [SerializeField]
-    private string input;//TODO: Establecer el sistema de input (Si es tactil lo puedo entregar pa la tarea del jueguito de movi xd xdd)
+    private KeyCode input;//TODO: Establecer el sistema de input 
     [SerializeField]
     [Header("Single hit note prefab")]
     private GameObject singleNotePrefab;
@@ -22,9 +22,9 @@ public class SpawnColumn : MonoBehaviour
     private List<GameObject> notes = new List<GameObject>();
     RhythmConductor conductor;
     private int inputIndex;
-    private void Awake()
+    private void Start()
     {
-        conductor = GameObject.Find("RhythmCondcutor").GetComponent<RhythmConductor>();
+        conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
     }
     private void ReadInput()
     {
@@ -62,10 +62,10 @@ public class SpawnColumn : MonoBehaviour
         longNoteHead.transform.position = spawnPosition;
         LongNote longNoteScript = longNoteHead.GetComponent<LongNote>();
         longNoteScript.NoteData = note;
+        longNoteScript.Column = this;
         longNoteScript.InstantiateNestedNotes();
         longNoteScript.StartTime = longNoteScript.NoteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
         longNoteScript.InstantiationTimestamp = longNoteScript.StartTime - (conductor.secondsPerNote * 8);
-        longNoteScript.Column = this;
         longNoteScript.NestedNotes.ForEach(nested =>
         {
             nested.GetComponent<TickNoteScript>().NoteTimestamp = nested.GetComponent<TickNoteScript>().noteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
@@ -87,8 +87,8 @@ public class SpawnColumn : MonoBehaviour
         SingleHitNote noteScript = newNote.GetComponent<SingleHitNote>();
         noteScript.noteData = note;
         noteScript.NoteTimestamp = noteScript.noteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
-        noteScript.InstantiationTimestamp = noteScript.NoteTimestamp - (conductor.secondsPerNote * 8);
         noteScript.column = this;
+        noteScript.InstantiationTimestamp = noteScript.NoteTimestamp - (conductor.secondsPerNote * 8);
         notes.Add(newNote);
     }
 }

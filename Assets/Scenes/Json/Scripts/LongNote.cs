@@ -31,6 +31,10 @@ public class LongNote : MonoBehaviour
     private GameObject TickNotePrefab;
     #endregion
     #region Unity Events
+    private void Awake()
+    {
+        conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
+    }
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -61,12 +65,15 @@ public class LongNote : MonoBehaviour
     public void InstantiateNestedNotes()
     {
         NestedNotes = new List<GameObject>();
+        lineRenderer.positionCount = NoteData.nestedNotes.Count + 1;
+        lineRenderer.SetPosition(0,transform.position);
         foreach (var nested in NoteData.nestedNotes)
         {
             GameObject note = Instantiate(TickNotePrefab);
             //note.transform.SetParent(gameObject.transform);
             note.GetComponent<TickNoteScript>().noteData = nested;
             note.GetComponent<TickNoteScript>().Column = this.Column;
+            note.GetComponent<Transform>().position= Column.transform.position;
             NestedNotes.Add(note);
         }
         TailNote = NestedNotes[NestedNotes.Count - 1];
@@ -78,8 +85,8 @@ public class LongNote : MonoBehaviour
     /// </summary>
     private void SetLinerendererPoints()
     {
-        lineRenderer.positionCount = NestedNotes.Count;
-        lineRenderer.SetPosition(lineRenderer.positionCount-1, gameObject.transform.position);
+        lineRenderer.positionCount = NestedNotes.Count+1;
+        lineRenderer.SetPosition(NestedNotes.Count, gameObject.transform.position);
         for (int i = (NestedNotes.Count-1); i >= 0; i--)
         {
             var position = NestedNotes[i].GetComponent<Transform>().position;

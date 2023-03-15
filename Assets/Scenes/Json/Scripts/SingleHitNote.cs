@@ -22,14 +22,15 @@ public class SingleHitNote : MonoBehaviour
     }
     private void Update()
     {
-        TimeSienceInstantiation = conductor.songPositionSeconds - InstantiationTimestamp;
+        TimeSienceInstantiation = conductor.songPositionSeconds - this.InstantiationTimestamp;
         var t = TimeSienceInstantiation;
         Debug.Log(t);
+        var aux = InstantiationTimestamp / conductor.secondsPerNote;
         if (t > 1)
         {
             Destroy(gameObject);
         }
-        else if(conductor.lastBeat>= InstantiationTimestamp/conductor.secondsPerNote)
+        else /*if(conductor.lastBeat>= aux)*/
         {
             transform.position = Vector2.Lerp(column.spawnPosition,column.despawnPosition, t);
         }

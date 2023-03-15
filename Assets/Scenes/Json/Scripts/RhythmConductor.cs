@@ -29,13 +29,20 @@ public class RhythmConductor : MonoBehaviour
     {
         ReadBeatmapInfo();
     }
+    private void SpawnLanes()
+    {//TODO: Actually spawn lanes instead of getting lanes fron
+        lanes = new List<SpawnColumn>();
+        var lanesGo= GameObject.FindGameObjectsWithTag("Lane").ToList();
+        lanesGo.ForEach(a => lanes.Add(a.GetComponent<SpawnColumn>()));
+    }
     private void Start()
     {
-        InstantiateWholeMap();
         lastBeat = 0;
         songAudio = GetComponent<AudioSource>();
         dpsTime = (float)AudioSettings.dspTime;
         secondsPerNote = 60f / (songBpm * notesPerBeat);
+        SpawnLanes();
+        InstantiateWholeMap();
         songAudio.Play();
     }
     private void Update()
