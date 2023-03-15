@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d574e3ecddeb1642bf522cb4667b4cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnIndex: 3
+  ColumnIndex: 2
   spawnPosition: {x: 2, y: 6}
   despawnPosition: {x: 2, y: -7}
   input: 273
@@ -572,7 +572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d574e3ecddeb1642bf522cb4667b4cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnIndex: 1
+  ColumnIndex: 0
   spawnPosition: {x: -5.5, y: 6}
   despawnPosition: {x: -5.5, y: -7}
   input: 276
@@ -675,7 +675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d574e3ecddeb1642bf522cb4667b4cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnIndex: 4
+  ColumnIndex: 3
   spawnPosition: {x: 5.5, y: 6}
   despawnPosition: {x: 5.5, y: -7}
   input: 275
@@ -778,7 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d574e3ecddeb1642bf522cb4667b4cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnIndex: 2
+  ColumnIndex: 1
   spawnPosition: {x: -2, y: 6}
   despawnPosition: {x: -2, y: -7}
   input: 274
