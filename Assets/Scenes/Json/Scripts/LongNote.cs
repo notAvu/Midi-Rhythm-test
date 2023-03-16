@@ -65,8 +65,6 @@ public class LongNote : MonoBehaviour
     public void InstantiateNestedNotes()
     {
         NestedNotes = new List<GameObject>();
-        lineRenderer.positionCount = NoteData.nestedNotes.Count + 1;
-        lineRenderer.SetPosition(0,transform.position);
         foreach (var nested in NoteData.nestedNotes)
         {
             GameObject note = Instantiate(TickNotePrefab);
@@ -85,11 +83,11 @@ public class LongNote : MonoBehaviour
     /// </summary>
     private void SetLinerendererPoints()
     {
-        lineRenderer.positionCount = NestedNotes.Count+1;
-        lineRenderer.SetPosition(NestedNotes.Count, gameObject.transform.position);
-        for (int i = (NestedNotes.Count-1); i >= 0; i--)
+        lineRenderer.positionCount = NoteData.nestedNotes.Count + 1;
+        lineRenderer.SetPosition(0, transform.position);
+        for (int i = (NestedNotes.Count); i >= 1; i--)
         {
-            var position = NestedNotes[i].GetComponent<Transform>().position;
+            var position = NestedNotes[i-1].GetComponent<Transform>().position;
             lineRenderer.SetPosition(i, position);
         }
     }

@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 41704882}
   - component: {fileID: 41704881}
   m_Layer: 0
-  m_Name: LaneSpawn (5)
+  m_Name: LaneSpawn (2)
   m_TagString: Lane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -657,7 +657,7 @@ GameObject:
   - component: {fileID: 953948161}
   - component: {fileID: 953948160}
   m_Layer: 0
-  m_Name: LaneSpawn (6)
+  m_Name: LaneSpawn (3)
   m_TagString: Lane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -760,7 +760,7 @@ GameObject:
   - component: {fileID: 2139452500}
   - component: {fileID: 2139452499}
   m_Layer: 0
-  m_Name: LaneSpawn (4)
+  m_Name: LaneSpawn (1)
   m_TagString: Lane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

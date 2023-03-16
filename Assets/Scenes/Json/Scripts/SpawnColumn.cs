@@ -22,7 +22,7 @@ public class SpawnColumn : MonoBehaviour
     private List<GameObject> notes = new List<GameObject>();
     RhythmConductor conductor;
     private int inputIndex;
-    private void Start()
+    private void Awake()
     {
         conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
     }
@@ -86,8 +86,9 @@ public class SpawnColumn : MonoBehaviour
         newNote.transform.position = spawnPosition;
         SingleHitNote noteScript = newNote.GetComponent<SingleHitNote>();
         noteScript.noteData = note;
-        noteScript.NoteTimestamp = noteScript.noteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
+        noteScript.conductor = conductor;
         noteScript.column = this;
+        noteScript.NoteTimestamp = noteScript.noteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
         noteScript.InstantiationTimestamp = noteScript.NoteTimestamp - (conductor.secondsPerNote * 8);
         notes.Add(newNote);
     }

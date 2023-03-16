@@ -13,7 +13,7 @@ public class SingleHitNote : MonoBehaviour
     public RhythmConductor conductor { private get; set; } 
     private void Awake()
     {
-        conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
+        //conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
     }
     private void Start()
     {
@@ -25,12 +25,12 @@ public class SingleHitNote : MonoBehaviour
         TimeSienceInstantiation = conductor.songPositionSeconds - this.InstantiationTimestamp;
         var t = TimeSienceInstantiation;
         Debug.Log(t);
-        var aux = InstantiationTimestamp / conductor.secondsPerNote;
+        //var aux = InstantiationTimestamp / conductor.secondsPerNote;
         if (t > 1)
         {
             Destroy(gameObject);
         }
-        else /*if(conductor.lastBeat>= aux)*/
+        else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
         {
             transform.position = Vector2.Lerp(column.spawnPosition,column.despawnPosition, t);
         }
