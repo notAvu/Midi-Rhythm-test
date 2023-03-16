@@ -16,6 +16,7 @@ public class LongNote : MonoBehaviour
     public SpawnColumn Column;
     public GameObject TailNote;
     public List<GameObject> NestedNotes;
+    public bool BeingHit;
     /// <summary>
     /// The timestamp at which this note starts moving in the screen
     /// </summary>
@@ -37,6 +38,11 @@ public class LongNote : MonoBehaviour
     }
     private void Start()
     {
+        BeingHit = true;// Just for testing, must change when input is correctly implemented
+        foreach (var note in NestedNotes)
+        {
+            note.GetComponent<TickNoteScript>().HeadNote = this;
+        }
         lineRenderer = GetComponent<LineRenderer>();
     }
     private void Update()
@@ -46,11 +52,21 @@ public class LongNote : MonoBehaviour
         Debug.Log(t);
         if (t > 1)
         {
-            //Destroy(gameObject);
+            if (TailNote.gameObject == null)
+            {
+                Destroy(gameObject);
+            }
         }
         else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
         {
-            transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, t);
+            if (BeingHit && transform.position.y <= Column.HitBar.transform.position.y)
+            {
+                transform.position = new Vector2(transform.position.x, Column.HitBar.position.y);
+            }
+            else
+            {
+                transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, t);
+            }
         }
     }
     private void LateUpdate()
@@ -60,21 +76,26 @@ public class LongNote : MonoBehaviour
     #endregion
     #region Note Instantiation
     /// <summary>
-    /// Instantiates a TickNotePrefab(<seealso cref="TickNoteScript"/>) and sets is as part of the same long note
+    /// Instantiates a <seealso cref="TickNoteScript"/> GO and sets is as part of the same long note
     /// </summary>
     public void InstantiateNestedNotes()
     {
         NestedNotes = new List<GameObject>();
         foreach (var nested in NoteData.nestedNotes)
         {
+            var tailnoteIndex = 0f;
             GameObject note = Instantiate(TickNotePrefab);
             //note.transform.SetParent(gameObject.transform);
             note.GetComponent<TickNoteScript>().noteData = nested;
             note.GetComponent<TickNoteScript>().Column = this.Column;
-            note.GetComponent<Transform>().position= Column.transform.position;
+            note.GetComponent<Transform>().position = Column.transform.position;
             NestedNotes.Add(note);
+            if (nested.NoteIndex > tailnoteIndex)
+            {
+                tailnoteIndex = nested.NoteIndex;
+                TailNote = note;
+            }
         }
-        TailNote = NestedNotes[NestedNotes.Count - 1];
     }
     #endregion
     #region Visuals related methods
@@ -87,8 +108,12 @@ public class LongNote : MonoBehaviour
         lineRenderer.SetPosition(0, transform.position);
         for (int i = (NestedNotes.Count); i >= 1; i--)
         {
-            var position = NestedNotes[i-1].GetComponent<Transform>().position;
-            lineRenderer.SetPosition(i, position);
+            if (NestedNotes[i - 1] != null)
+            {
+                var position = NestedNotes[i - 1].GetComponent<Transform>().position;
+                lineRenderer.SetPosition(i, position);
+            }
+            else { lineRenderer.positionCount = NestedNotes.Count+1; }
         }
     }
     #endregion

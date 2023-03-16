@@ -58,7 +58,7 @@ public class NoteObject
 }
 
 /*
- * Maybe this enum should be better implemented in a different file 
+ * This enum should be better implemented in a different file 
  */
 public enum HitWindow
 {

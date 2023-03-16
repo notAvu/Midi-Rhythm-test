@@ -155,10 +155,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColumnIndex: 2
   spawnPosition: {x: 2, y: 6}
-  despawnPosition: {x: 2, y: -7}
+  despawnPosition: {x: 2, y: -5.5}
   input: 273
   singleNotePrefab: {fileID: 6362923451960482973, guid: 0b79f1f40c5aa5a46a4df39acb5a5e08, type: 3}
   longNotePrefab: {fileID: 1256314851177894517, guid: 9d51235f733021d41a4389bcbc219aed, type: 3}
+  HitBar: {fileID: 0}
 --- !u!212 &41704882
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -385,7 +386,7 @@ GameObject:
   - component: {fileID: 392507210}
   - component: {fileID: 392507209}
   m_Layer: 0
-  m_Name: Square
+  m_Name: HitBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -574,10 +575,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColumnIndex: 0
   spawnPosition: {x: -5.5, y: 6}
-  despawnPosition: {x: -5.5, y: -7}
+  despawnPosition: {x: -5.5, y: -5.5}
   input: 276
   singleNotePrefab: {fileID: 6362923451960482973, guid: 0b79f1f40c5aa5a46a4df39acb5a5e08, type: 3}
   longNotePrefab: {fileID: 1256314851177894517, guid: 9d51235f733021d41a4389bcbc219aed, type: 3}
+  HitBar: {fileID: 0}
 --- !u!212 &925007706
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -677,10 +679,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColumnIndex: 3
   spawnPosition: {x: 5.5, y: 6}
-  despawnPosition: {x: 5.5, y: -7}
+  despawnPosition: {x: 5.5, y: -5.5}
   input: 275
   singleNotePrefab: {fileID: 6362923451960482973, guid: 0b79f1f40c5aa5a46a4df39acb5a5e08, type: 3}
   longNotePrefab: {fileID: 1256314851177894517, guid: 9d51235f733021d41a4389bcbc219aed, type: 3}
+  HitBar: {fileID: 0}
 --- !u!212 &953948161
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -780,10 +783,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColumnIndex: 1
   spawnPosition: {x: -2, y: 6}
-  despawnPosition: {x: -2, y: -7}
+  despawnPosition: {x: -2, y: -5.5}
   input: 274
   singleNotePrefab: {fileID: 6362923451960482973, guid: 0b79f1f40c5aa5a46a4df39acb5a5e08, type: 3}
   longNotePrefab: {fileID: 1256314851177894517, guid: 9d51235f733021d41a4389bcbc219aed, type: 3}
+  HitBar: {fileID: 0}
 --- !u!212 &2139452500
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ public class RhythmConductor : MonoBehaviour
     public float secondsPerNote;
 
     public float offset;
-    private int columns;
+    private int columnCount;
 
     public float songPosition;
     public float songPositionSeconds;
@@ -73,7 +73,7 @@ public class RhythmConductor : MonoBehaviour
         songBpm = beatmapInfo.BPM;
         notesPerBeat = beatmapInfo.notes[0].LPB;
         offset = (float)beatmapInfo.offset / 1000f;
-        columns = beatmapInfo.maxBlock;
+        columnCount = beatmapInfo.maxBlock;
         beatmapInfo.notes.ToList().ForEach(item => { var noteObj = new NoteObject(item); notes.Add(noteObj);});
         return notes;
     }

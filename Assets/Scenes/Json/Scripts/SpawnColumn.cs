@@ -21,19 +21,27 @@ public class SpawnColumn : MonoBehaviour
     private GameObject longNotePrefab;
     private List<GameObject> notes = new List<GameObject>();
     RhythmConductor conductor;
-    private int inputIndex;
+    [SerializeField]
+    public Transform HitBar;
+    private int inputIndex; //the index of thenext note to be hit in this lane 
     private void Awake()
     {
         conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
+        HitBar = GameObject.Find("HitBar").transform;
+    }
+    private void FixedUpdate()
+    {
+        if (Input.GetKeyDown(input))
+        {
+            ReadInput();
+        }
     }
     private void ReadInput()
     {
         var currentNoteTs = notes[inputIndex];
-        var songTime= conductor.songPositionSeconds;
-
+        var songTime = conductor.songPositionSeconds;
     }
     // This may be better done as a coroutine that loads the level in a loading screen before playing the actual song
-    // TODO: Clean this messy spaghetti code
     /// <summary>
     /// Generates the notes that are going to be played in this column
     /// </summary>

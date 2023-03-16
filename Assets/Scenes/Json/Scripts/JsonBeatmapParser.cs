@@ -21,8 +21,11 @@ public class JsonBeatmapParser
         parsedBeatmap = JsonUtility.FromJson<BeatmapJson>(jsonFile.text);
         foreach (var note in parsedBeatmap.notes)
         {
+            //if(note.notes.Length == 0)
+            //{
+            //    note.notes = null;
+            //}
             notes.Add(note);
-            //Debug.Log("Note num: " + note.num);
         }
         return parsedBeatmap;
     }

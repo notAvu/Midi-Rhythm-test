@@ -15,11 +15,11 @@ public class BeatBar : MonoBehaviour
     {
         conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
     }
-    private void Start()
-    {
-        //NoteTimestamp = InstantiationTimestamp;
-        //transform.position = new Vector3(0, 6, 0);
-    }
+    //private void Start()
+    //{
+    //    //NoteTimestamp = InstantiationTimestamp;
+    //    //transform.position = new Vector3(0, 6, 0);
+    //}
     private void Update()
     {
         TimeSienceInstantiation = conductor.songPositionSeconds - InstantiationTimestamp;
