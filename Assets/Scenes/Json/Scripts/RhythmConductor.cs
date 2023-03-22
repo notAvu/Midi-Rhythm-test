@@ -17,7 +17,8 @@ public class RhythmConductor : MonoBehaviour
     public float secondsPerNote;
 
     public float offset;
-    private int columnCount;
+    [HideInInspector]
+    public int columnCount;
 
     public float songPosition;
     public float songPositionSeconds;
@@ -25,12 +26,13 @@ public class RhythmConductor : MonoBehaviour
     private float dpsTime;
 
     private List<SpawnColumn> lanes;
+
     private void Awake()
     {
         ReadBeatmapInfo();
     }
     private void SpawnLanes()
-    {//TODO: Actually spawn lanes instead of getting lanes fron
+    {//TODO: Actually spawn lanes instead of getting lanes from
         lanes = new List<SpawnColumn>();
         var lanesGo= GameObject.FindGameObjectsWithTag("Lane").ToList();
         lanesGo.ForEach(a => lanes.Add(a.GetComponent<SpawnColumn>()));

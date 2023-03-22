@@ -21,7 +21,7 @@ public class SpawnColumn : MonoBehaviour
     private GameObject longNotePrefab;
     private List<GameObject> notes = new List<GameObject>();
     RhythmConductor conductor;
-    [SerializeField]
+    [HideInInspector]
     public Transform HitBar;
     private int inputIndex; //the index of thenext note to be hit in this lane 
     private void Awake()
