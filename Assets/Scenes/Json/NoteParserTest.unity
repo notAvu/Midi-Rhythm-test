@@ -796,7 +796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a6322564eaceb419b0816c40341540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lanePrefab: {fileID: 0}
+  lanePrefab: {fileID: 5474892884158436104, guid: 7d23457df28523442b60b384d7d26b4c, type: 3}
   horizontalSize: 18
   yPosition: 6
   margin: 0
