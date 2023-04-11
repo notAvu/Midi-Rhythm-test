@@ -101,4 +101,8 @@ public class RhythmConductor : MonoBehaviour
         uwu.GetComponent<BeatBar>().CurrentIndex = (int)lastBeat;
         uwu.GetComponent<BeatBar>().InstantiationTimestamp = lastBeat * secondsPerNote;
     }
+    public double GetAudioSourceTime()
+    {
+        return (double) songAudio.timeSamples / songAudio.clip.frequency;
+    }
 }

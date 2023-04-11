@@ -17,13 +17,13 @@ public class SingleHitNote : MonoBehaviour
     }
     private void Start()
     {
-        //NoteTimestamp = InstantiationTimestamp;
+        //InstantiationTimestamp = (float)conductor.GetAudioSourceTime();
         //transform.position = new Vector3(0, 6, 0);
     }
     private void Update()
     {
-        TimeSienceInstantiation = conductor.songPositionSeconds - this.InstantiationTimestamp;
-        var t = TimeSienceInstantiation;
+        TimeSienceInstantiation = (float)conductor.GetAudioSourceTime() - this.InstantiationTimestamp;
+        var t = TimeSienceInstantiation/(2);
         Debug.Log(t);
         //var aux = InstantiationTimestamp / conductor.secondsPerNote;
         if (t > 1)
