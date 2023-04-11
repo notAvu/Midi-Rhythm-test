@@ -30,7 +30,7 @@ public class SingleHitNote : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
+        else 
         {
             transform.position = Vector2.Lerp(column.spawnPosition,column.despawnPosition, t);
         }

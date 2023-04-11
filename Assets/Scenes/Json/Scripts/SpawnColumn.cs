@@ -97,7 +97,7 @@ public class SpawnColumn : MonoBehaviour
         noteScript.conductor = conductor;
         noteScript.column = this;
         noteScript.NoteTimestamp = noteScript.noteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
-        noteScript.InstantiationTimestamp = noteScript.NoteTimestamp - (conductor.secondsPerNote * 8);
+        noteScript.InstantiationTimestamp = noteScript.NoteTimestamp - (conductor.secondsPerNote * 8); //TODO: ajustar, probablemente este sea el problema que hace que el timing vaya regu
         notes.Add(newNote);
     }
 }
