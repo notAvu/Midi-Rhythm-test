@@ -23,7 +23,7 @@ public class SingleHitNote : MonoBehaviour
     private void Update()
     {
         TimeSienceInstantiation = (float)conductor.GetAudioSourceTime() - this.InstantiationTimestamp;
-        var t = TimeSienceInstantiation/(2);
+        var t = TimeSienceInstantiation;
         Debug.Log(t);
         //var aux = InstantiationTimestamp / conductor.secondsPerNote;
         if (t > 1)
