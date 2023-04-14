@@ -30,7 +30,6 @@ public class StageGeneration : MonoBehaviour
         for (int i = 1; i <= laneCount; i++)
         {
             _ = Instantiate(lanePrefab, new Vector2(firstLanePosition+(laneDistance * laneCount), yPosition), Quaternion.identity);
-            //TODO: add to RythmConductor's list 
         }
     }
 }
