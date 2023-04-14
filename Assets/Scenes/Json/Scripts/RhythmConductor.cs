@@ -31,8 +31,8 @@ public class RhythmConductor : MonoBehaviour
     {
         ReadBeatmapInfo();
     }
-    private void SpawnLanes()
-    {//TODO: Actually spawn lanes instead of getting lanes from
+    private void FindLanes()
+    {
         lanes = new List<SpawnColumn>();
         var lanesGo= GameObject.FindGameObjectsWithTag("Lane").ToList();
         lanesGo.ForEach(a => lanes.Add(a.GetComponent<SpawnColumn>()));
@@ -43,7 +43,7 @@ public class RhythmConductor : MonoBehaviour
         songAudio = GetComponent<AudioSource>();
         dpsTime = (float)AudioSettings.dspTime;
         secondsPerNote = 60f / (songBpm * notesPerBeat);
-        SpawnLanes();
+        FindLanes();
         InstantiateWholeMap();
         songAudio.Play();
     }
@@ -51,7 +51,6 @@ public class RhythmConductor : MonoBehaviour
     {
         songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime) - offset);
         songPosition = songPositionSeconds / secondsPerNote;
-        //Debug.Log($"songPosition: {songPosition}");
         if (lastBeat > 0 && (int)lastBeat != BeatBar.LastIndex && lastBeat % 8 == 0)
         {
             BeatBar.LastIndex = (int)lastBeat;
@@ -60,7 +59,6 @@ public class RhythmConductor : MonoBehaviour
         if (songPosition > lastBeat + secondsPerNote)
         {
             lastBeat += secondsPerNote;
-            //Debug.Log($"LastBeat: {(int)lastBeat}");
         }
     }
     /// <summary>
@@ -100,5 +98,9 @@ public class RhythmConductor : MonoBehaviour
         var uwu = Instantiate(beatBar);
         uwu.GetComponent<BeatBar>().CurrentIndex = (int)lastBeat;
         uwu.GetComponent<BeatBar>().InstantiationTimestamp = lastBeat * secondsPerNote;
+    }
+    public double GetAudioSourceTime()
+    {
+        return (double) songAudio.timeSamples / songAudio.clip.frequency;
     }
 }

@@ -17,12 +17,12 @@ public class SingleHitNote : MonoBehaviour
     }
     private void Start()
     {
-        //NoteTimestamp = InstantiationTimestamp;
+        //InstantiationTimestamp = (float)conductor.GetAudioSourceTime();
         //transform.position = new Vector3(0, 6, 0);
     }
     private void Update()
     {
-        TimeSienceInstantiation = conductor.songPositionSeconds - this.InstantiationTimestamp;
+        TimeSienceInstantiation = (float)conductor.GetAudioSourceTime() - this.InstantiationTimestamp;
         var t = TimeSienceInstantiation;
         Debug.Log(t);
         //var aux = InstantiationTimestamp / conductor.secondsPerNote;
@@ -30,7 +30,7 @@ public class SingleHitNote : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
+        else 
         {
             transform.position = Vector2.Lerp(column.spawnPosition,column.despawnPosition, t);
         }
