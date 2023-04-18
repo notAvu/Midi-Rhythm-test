@@ -10,10 +10,10 @@ public class SongTemplate : MonoBehaviour
     #region song data
     [HideInInspector]
     public string songName;
-    //[HideInInspector]
-    //public string songArtist;
     [HideInInspector]
     public int bpm;
+    [HideInInspector]
+    public int lanes;
     [HideInInspector]
     public AudioClip sound;
     [HideInInspector]
@@ -33,5 +33,9 @@ public class SongTemplate : MonoBehaviour
         gameObject.GetComponent<Image>().sprite = songCoverImage;
         songTitle.text = songName;
         songArtist.text = bpm.ToString();
+    }
+    public void SelectSong()
+    {
+
     }
 }

@@ -8,27 +8,34 @@ public class SongSelectMenu : MonoBehaviour
     private GameObject prefab;
     [SerializeField]
     private GameObject scrollViewContent;
+    private JsonBeatmapParser parser;
+    [SerializeField]
+    private AudioSource audioSource;
     private void Awake()
     {
+        parser = new JsonBeatmapParser();
         LoadSongs();
     }
     private void LoadSongs()
     {
         var songFolderPath = Application.dataPath + "/Resources/Songs";
         DirectoryInfo i = new DirectoryInfo(songFolderPath);
-        var directoryList = Directory.GetDirectories(songFolderPath);
         foreach(var dir in i.GetDirectories())
         {
-            var allres = Resources.LoadAll($"Songs/{dir.Name}");
-            var songImage = Resources.Load<Sprite>($"Songs/{dir.Name}/{dir.Name}");
-            var json = Resources.Load($"Songs/{dir.Name}/{dir.Name}", typeof(TextAsset)) as TextAsset;
-            var songItem = Instantiate(prefab);
-            var itemScript = songItem.GetComponent<SongTemplate>();
-            itemScript.songCoverImage = (Sprite)songImage;
-            itemScript.songName = dir.Name;
-            songItem.gameObject.transform.parent = scrollViewContent.transform;
+            CreateSongItem(dir.Name);
         }
-        //itemScript.songName = info.Name;
-
+    }
+    private void CreateSongItem(string songDirName)
+    {
+        var songImage = Resources.Load<Sprite>($"Songs/{songDirName}/{songDirName}");
+        var json = Resources.Load($"Songs/{songDirName}/{songDirName}", typeof(TextAsset)) as TextAsset;
+        var beatmapInfo = parser.ParseBeatmap(json);
+        var songItem = Instantiate(prefab);
+        var itemScript = songItem.GetComponent<SongTemplate>();
+        itemScript.songCoverImage = songImage;
+        itemScript.songName = beatmapInfo.name;
+        itemScript.bpm = beatmapInfo.BPM;
+        itemScript.lanes = beatmapInfo.maxBlock;
+        songItem.gameObject.transform.SetParent(scrollViewContent.transform);
     }
 }

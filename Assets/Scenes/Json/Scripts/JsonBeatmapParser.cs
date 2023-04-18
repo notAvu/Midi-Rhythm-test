@@ -21,21 +21,20 @@ public class JsonBeatmapParser
         parsedBeatmap = JsonUtility.FromJson<BeatmapJson>(jsonFile.text);
         foreach (var note in parsedBeatmap.notes)
         {
-            //if(note.notes.Length == 0)
-            //{
-            //    note.notes = null;
-            //}
             notes.Add(note);
         }
         return parsedBeatmap;
     }
+    //public BeatmapJson ParseSong(TextAsset jsonFile)
+    //{
+    //    parsedBeatmap = JsonUtility.FromJson<BeatmapJson>(jsonFile.text);
+    //}
     public BeatmapJson ParseBeatmap(string jsonText)
     {
         parsedBeatmap = JsonUtility.FromJson<BeatmapJson>(jsonText);
         foreach (var note in parsedBeatmap.notes)
         {
             notes.Add(note);
-            //Debug.Log("Note num: " + note.num);
         }
         return parsedBeatmap;
     }
