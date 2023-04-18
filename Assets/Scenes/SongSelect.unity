@@ -1147,7 +1147,7 @@ GameObject:
   - component: {fileID: 1444230446}
   m_Layer: 0
   m_Name: SongLoader
-  m_TagString: Untagged
+  m_TagString: SongLoader
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1181,7 +1181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 6839936982727907593, guid: 2fe518d65e4b84044a10fe3e2b4705a1, type: 3}
   scrollViewContent: {fileID: 858207780}
-  audioSource: {fileID: 186691489}
+  selectedSong: {fileID: 0}
+  audioPlayer: {fileID: 186691489}
 --- !u!1 &2051699376
 GameObject:
   m_ObjectHideFlags: 0
