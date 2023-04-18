@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// TODO: set this as a singleton
@@ -14,13 +15,16 @@ public class SongSelectMenu : MonoBehaviour
     [SerializeField]
     private GameObject scrollViewContent;
     private JsonBeatmapParser parser;
-
     public SongTemplate selectedSong;
     public AudioSource audioPlayer;
     private void Awake()
     {
         parser = new JsonBeatmapParser();
         LoadSongs();
+    }
+    private void Start()
+    {
+        audioPlayer = FindObjectOfType<AudioSource>();
     }
     private void LoadSongs()
     {
@@ -56,5 +60,11 @@ public class SongSelectMenu : MonoBehaviour
         audioPlayer.clip = Resources.Load<AudioClip>($"Songs/{song.name}/{song.name}");
         audioPlayer.time = (audioPlayer.clip.length / 3);
         audioPlayer.Play();
+    }
+    public void GoToPlayScene()
+    {
+        SceneManager.LoadScene("NoteParserTest");
+        audioPlayer.Stop();
+        audioPlayer = null; 
     }
 }
