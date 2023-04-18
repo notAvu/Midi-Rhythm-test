@@ -25,10 +25,10 @@ public class JsonBeatmapParser
         }
         return parsedBeatmap;
     }
-    //public BeatmapJson ParseSong(TextAsset jsonFile)
-    //{
-    //    parsedBeatmap = JsonUtility.FromJson<BeatmapJson>(jsonFile.text);
-    //}
+    public BeatmapJson ParseSong(TextAsset jsonFile)
+    {
+        return JsonUtility.FromJson<BeatmapJson>(jsonFile.text);
+    }
     public BeatmapJson ParseBeatmap(string jsonText)
     {
         parsedBeatmap = JsonUtility.FromJson<BeatmapJson>(jsonText);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 //[CreateAssetMenu(fileName = "New SongItem", menuName = "Song Item")]
 public class SongTemplate : MonoBehaviour
@@ -27,8 +28,13 @@ public class SongTemplate : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI songArtist;
     #endregion
+    private SongSelectMenu menu;
+    private const string SONG_LOADER_TAG = "SongLoader";
+    public event Action<SongTemplate> selectedSongAction;
     private void Start()
     {
+        gameObject.name = songName;
+        menu = GameObject.FindWithTag(SONG_LOADER_TAG).GetComponent<SongSelectMenu>();
         imageContainer.sprite = songCoverImage;
         gameObject.GetComponent<Image>().sprite = songCoverImage;
         songTitle.text = songName;
@@ -36,6 +42,6 @@ public class SongTemplate : MonoBehaviour
     }
     public void SelectSong()
     {
-
+        selectedSongAction?.Invoke(this);
     }
 }

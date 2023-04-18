@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
+
+/// <summary>
+/// TODO: set this as a singleton
+/// </summary>
 public class SongSelectMenu : MonoBehaviour
 {
     [SerializeField]
@@ -9,8 +14,9 @@ public class SongSelectMenu : MonoBehaviour
     [SerializeField]
     private GameObject scrollViewContent;
     private JsonBeatmapParser parser;
-    [SerializeField]
-    private AudioSource audioSource;
+
+    public SongTemplate selectedSong;
+    public AudioSource audioPlayer;
     private void Awake()
     {
         parser = new JsonBeatmapParser();
@@ -20,7 +26,7 @@ public class SongSelectMenu : MonoBehaviour
     {
         var songFolderPath = Application.dataPath + "/Resources/Songs";
         DirectoryInfo i = new DirectoryInfo(songFolderPath);
-        foreach(var dir in i.GetDirectories())
+        foreach (var dir in i.GetDirectories())
         {
             CreateSongItem(dir.Name);
         }
@@ -29,7 +35,7 @@ public class SongSelectMenu : MonoBehaviour
     {
         var songImage = Resources.Load<Sprite>($"Songs/{songDirName}/{songDirName}");
         var json = Resources.Load($"Songs/{songDirName}/{songDirName}", typeof(TextAsset)) as TextAsset;
-        var beatmapInfo = parser.ParseBeatmap(json);
+        var beatmapInfo = parser.ParseSong(json);
         var songItem = Instantiate(prefab);
         var itemScript = songItem.GetComponent<SongTemplate>();
         itemScript.songCoverImage = songImage;
@@ -37,5 +43,18 @@ public class SongSelectMenu : MonoBehaviour
         itemScript.bpm = beatmapInfo.BPM;
         itemScript.lanes = beatmapInfo.maxBlock;
         songItem.gameObject.transform.SetParent(scrollViewContent.transform);
+        itemScript.selectedSongAction += SetSelectedSong;
+    }
+    private void SetSelectedSong(SongTemplate song)
+    {
+        if (selectedSong != null)
+        {
+            audioPlayer.Stop();
+            Debug.Log("Now playing " + selectedSong.name);
+        }
+        selectedSong = song;
+        audioPlayer.clip = Resources.Load<AudioClip>($"Songs/{song.name}/{song.name}");
+        audioPlayer.time = (audioPlayer.clip.length / 3);
+        audioPlayer.Play();
     }
 }
