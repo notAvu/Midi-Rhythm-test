@@ -15,10 +15,12 @@ public class SongSelectMenu : MonoBehaviour
     [SerializeField]
     private GameObject scrollViewContent;
     private JsonBeatmapParser parser;
+    [HideInInspector]
     public SongTemplate selectedSong;
     public AudioSource audioPlayer;
     private void Awake()
     {
+        DontDestroyOnLoad(this);
         parser = new JsonBeatmapParser();
         LoadSongs();
     }
@@ -54,7 +56,7 @@ public class SongSelectMenu : MonoBehaviour
         if (selectedSong != null)
         {
             audioPlayer.Stop();
-            Debug.Log("Now playing " + selectedSong.name);
+            Debug.Log("Now playing " + song);
         }
         selectedSong = song;
         audioPlayer.clip = Resources.Load<AudioClip>($"Songs/{song.name}/{song.name}");
