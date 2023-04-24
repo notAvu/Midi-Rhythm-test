@@ -8,7 +8,8 @@ using UnityEngine;
 public class RhythmConductor : MonoBehaviour
 {
     public TextAsset jsonFile;
-    private AudioSource songAudio;
+    private AudioSource audioSource;
+    public SongDataContainer songFiles;
     [SerializeField]
     private GameObject beatBar;
 
@@ -29,6 +30,8 @@ public class RhythmConductor : MonoBehaviour
 
     private void Awake()
     {
+        songFiles = GameObject.FindGameObjectWithTag("SongLoader").GetComponent<SongSelectMenu>().selectedSong.songDataContainer;
+        this.jsonFile = songFiles.beatmapJson;
         ReadBeatmapInfo();
     }
     private void FindLanes()
@@ -40,12 +43,13 @@ public class RhythmConductor : MonoBehaviour
     private void Start()
     {
         lastBeat = 0;
-        songAudio = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
+        this.audioSource.clip = songFiles.audioClip;
         dpsTime = (float)AudioSettings.dspTime;
         secondsPerNote = 60f / (songBpm * notesPerBeat);
         FindLanes();
         InstantiateWholeMap();
-        songAudio.Play();
+        audioSource.Play();
     }
     private void Update()
     {
@@ -101,6 +105,6 @@ public class RhythmConductor : MonoBehaviour
     }
     public double GetAudioSourceTime()
     {
-        return (double) songAudio.timeSamples / songAudio.clip.frequency;
+        return (double) audioSource.timeSamples / audioSource.clip.frequency;
     }
 }

@@ -504,6 +504,7 @@ MonoBehaviour:
   imageContainer: {fileID: 1909120826100240741}
   songTitle: {fileID: 2328587775967687382}
   songArtist: {fileID: 2323232166107798627}
+  songDataContainer: {fileID: 11400000, guid: ea0c39a8a1113bd428ae1c837ead44d9, type: 2}
 --- !u!1 &8618754661737771786
 GameObject:
   m_ObjectHideFlags: 0

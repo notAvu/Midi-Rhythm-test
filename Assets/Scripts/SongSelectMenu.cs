@@ -12,7 +12,7 @@ using UnityEngine.Audio;
 public class SongSelectMenu : MonoBehaviour
 {
     [SerializeField]
-    [Range(0,1)]
+    [Range(0, 1)]
     private float transitionDuration;
     [SerializeField]
     private GameObject prefab;
@@ -21,6 +21,7 @@ public class SongSelectMenu : MonoBehaviour
     private JsonBeatmapParser parser;
     [HideInInspector]
     public SongTemplate selectedSong;
+    public SongDataContainer dataContainer;
     public AudioSource audioPlayer;
     private void Awake()
     {
@@ -30,6 +31,8 @@ public class SongSelectMenu : MonoBehaviour
     }
     private void Start()
     {
+        var selectedSongContainer = ScriptableObject.CreateInstance<SongDataContainer>();
+        this.dataContainer = selectedSongContainer;
         audioPlayer = FindObjectOfType<AudioSource>();
     }
     private void LoadSongs()
@@ -43,12 +46,15 @@ public class SongSelectMenu : MonoBehaviour
     }
     private void CreateSongItem(string songDirName)
     {
-        var songImage = Resources.Load<Sprite>($"Songs/{songDirName}/{songDirName}");
+        var newContainer = ScriptableObject.CreateInstance<SongDataContainer>();
         var json = Resources.Load($"Songs/{songDirName}/{songDirName}", typeof(TextAsset)) as TextAsset;
         var beatmapInfo = parser.ParseSong(json);
         var songItem = Instantiate(prefab);
         var itemScript = songItem.GetComponent<SongTemplate>();
-        itemScript.songCoverImage = songImage;
+        itemScript.songDataContainer = newContainer;
+        itemScript.songDataContainer.audioClip = Resources.Load<AudioClip>($"Songs/{songDirName}/{songDirName}");
+        itemScript.songDataContainer.coverArt = Resources.Load<Sprite>($"Songs/{songDirName}/{songDirName}");
+        itemScript.songDataContainer.beatmapJson = json;
         itemScript.songName = beatmapInfo.name;
         itemScript.bpm = beatmapInfo.BPM;
         itemScript.lanes = beatmapInfo.maxBlock;
@@ -62,6 +68,9 @@ public class SongSelectMenu : MonoBehaviour
     public void GoToPlayScene()
     {
         SceneManager.LoadScene("NoteParserTest");
+        dataContainer.audioClip = selectedSong.songDataContainer.audioClip;
+        dataContainer.beatmapJson = selectedSong.songDataContainer.beatmapJson;
+        dataContainer.coverArt= selectedSong.songDataContainer.coverArt;
         audioPlayer.Stop();
         audioPlayer = null;
     }
@@ -76,10 +85,9 @@ public class SongSelectMenu : MonoBehaviour
             Debug.Log("Now playing " + song);
         }
         selectedSong = song;
-        audioPlayer.clip = Resources.Load<AudioClip>($"Songs/{song.name}/{song.name}");
+        audioPlayer.clip = song.songDataContainer.audioClip;
         audioPlayer.Play();
-
         audioPlayer.time = (audioPlayer.clip.length / 3);
-        audioPlayer.outputAudioMixerGroup.audioMixer.FindSnapshot("On").TransitionTo(seconds+(seconds / 2));
+        audioPlayer.outputAudioMixerGroup.audioMixer.FindSnapshot("On").TransitionTo(seconds + (seconds / 2));
     }
 }

@@ -1453,6 +1453,7 @@ MonoBehaviour:
   prefab: {fileID: 6839936982727907593, guid: 2fe518d65e4b84044a10fe3e2b4705a1, type: 3}
   scrollViewContent: {fileID: 858207780}
   selectedSong: {fileID: 0}
+  dataContainer: {fileID: 11400000, guid: ea0c39a8a1113bd428ae1c837ead44d9, type: 2}
   audioPlayer: {fileID: 186691489}
 --- !u!1 &2051699376
 GameObject:
