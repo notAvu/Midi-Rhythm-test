@@ -4,12 +4,16 @@ using UnityEngine;
 using System.IO;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 /// <summary>
 /// TODO: set this as a singleton
 /// </summary>
 public class SongSelectMenu : MonoBehaviour
 {
+    [SerializeField]
+    [Range(0,1)]
+    private float transitionDuration;
     [SerializeField]
     private GameObject prefab;
     [SerializeField]
@@ -53,6 +57,19 @@ public class SongSelectMenu : MonoBehaviour
     }
     private void SetSelectedSong(SongTemplate song)
     {
+        StartCoroutine(TriggerFade(transitionDuration, song));
+    }
+    public void GoToPlayScene()
+    {
+        SceneManager.LoadScene("NoteParserTest");
+        audioPlayer.Stop();
+        audioPlayer = null;
+    }
+    private IEnumerator TriggerFade(float seconds, SongTemplate song)
+    {
+
+        audioPlayer.outputAudioMixerGroup.audioMixer.FindSnapshot("Off").TransitionTo(seconds);
+        yield return new WaitForSeconds(seconds);
         if (selectedSong != null)
         {
             audioPlayer.Stop();
@@ -60,13 +77,9 @@ public class SongSelectMenu : MonoBehaviour
         }
         selectedSong = song;
         audioPlayer.clip = Resources.Load<AudioClip>($"Songs/{song.name}/{song.name}");
-        audioPlayer.time = (audioPlayer.clip.length / 3);
         audioPlayer.Play();
-    }
-    public void GoToPlayScene()
-    {
-        SceneManager.LoadScene("NoteParserTest");
-        audioPlayer.Stop();
-        audioPlayer = null; 
+
+        audioPlayer.time = (audioPlayer.clip.length / 3);
+        audioPlayer.outputAudioMixerGroup.audioMixer.FindSnapshot("On").TransitionTo(seconds+(seconds / 2));
     }
 }
