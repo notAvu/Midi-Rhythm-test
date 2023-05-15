@@ -49,7 +49,7 @@ public class LongNote : MonoBehaviour
     {
         TimeSinceInstantiation = conductor.songPositionSeconds - InstantiationTimestamp;
         var t = TimeSinceInstantiation;
-        Debug.Log(t);
+        //Debug.Log(t);
         if (t > 1)
         {
             if (TailNote.gameObject == null)

@@ -22,9 +22,13 @@ public class SingleHitNote : MonoBehaviour
     }
     private void Update()
     {
-        TimeSienceInstantiation = (float)conductor.GetAudioSourceTime() - this.InstantiationTimestamp;
+        TimeSienceInstantiation = (float)conductor.GetAudioSourceTime() - InstantiationTimestamp;
         var t = TimeSienceInstantiation;
-        Debug.Log(t);
+        //Debug.Log(t);
+        if(noteData.NoteIndex == 110)
+        {
+            Debug.Log(t);
+        }
         //var aux = InstantiationTimestamp / conductor.secondsPerNote;
         if (t > 1)
         {
@@ -32,7 +36,7 @@ public class SingleHitNote : MonoBehaviour
         }
         else 
         {
-            transform.position = Vector2.Lerp(column.spawnPosition,column.despawnPosition, t);
+            transform.position = Vector2.Lerp(column.spawnPosition,column.despawnPosition, t); //TODO:check if this syncs with audio 
         }
     }
 }

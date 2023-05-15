@@ -59,7 +59,7 @@ public class SongSelectMenu : MonoBehaviour
         itemScript.bpm = beatmapInfo.BPM;
         itemScript.lanes = beatmapInfo.maxBlock;
         songItem.gameObject.transform.SetParent(scrollViewContent.transform);
-        itemScript.selectedSongAction += SetSelectedSong;
+        itemScript.SelectedSongAction += SetSelectedSong;
     }
     private void SetSelectedSong(SongTemplate song)
     {

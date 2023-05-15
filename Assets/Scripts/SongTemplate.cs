@@ -7,7 +7,7 @@ using System;
 
 public class SongTemplate : MonoBehaviour
 {
-    #region song data
+    #region Song data
     [HideInInspector]
     public string songName;
     [HideInInspector]
@@ -19,7 +19,7 @@ public class SongTemplate : MonoBehaviour
     [HideInInspector]
     public Sprite songCoverImage;
     #endregion
-    #region
+    #region UI components
     [SerializeField]
     private Image imageContainer;
     [SerializeField]
@@ -29,13 +29,10 @@ public class SongTemplate : MonoBehaviour
     #endregion
     [SerializeField]
     public SongDataContainer songDataContainer;
-    //private SongSelectMenu menu;
-    //private const string SONG_LOADER_TAG = "SongLoader";
-    public event Action<SongTemplate> selectedSongAction;
+    public event Action<SongTemplate> SelectedSongAction;
     private void Start()
     {
         gameObject.name = songName;
-        //menu = GameObject.FindWithTag(SONG_LOADER_TAG).GetComponent<SongSelectMenu>();
         songCoverImage = songDataContainer.coverArt;
         imageContainer.sprite = songCoverImage;
         gameObject.GetComponent<Image>().sprite = songCoverImage;
@@ -44,6 +41,6 @@ public class SongTemplate : MonoBehaviour
     }
     public void SelectSong()
     {
-        selectedSongAction?.Invoke(this);
+        SelectedSongAction?.Invoke(this);
     }
 }
