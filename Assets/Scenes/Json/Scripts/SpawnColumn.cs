@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SpawnColumn : MonoBehaviour
 {
     public const float COLUMN_WIDTH = 0;
-
+    [SerializeField]
+    private RhythmInput actions;
     public int ColumnIndex;
     [SerializeField]
     public Vector2 spawnPosition;
@@ -38,9 +40,22 @@ public class SpawnColumn : MonoBehaviour
     }
     private void ReadInput()
     {
-        var currentNoteTs = notes[inputIndex];
+        var currentNoteTs = notes[inputIndex].GetComponent<NoteScript>().assignedTime;
         var songTime = conductor.songPositionSeconds;
+        var hitWindowDiff = conductor.secondsPerNote*.3f;
+        if (true/*Input.GetKeyDown(input)*/)
+        {
+            if (Mathf.Abs(songTime-currentNoteTs)<hitWindowDiff)
+            {
+                ScoreManager.Instance.NoteHit();
+            }
+            else
+            {
+                ScoreManager.Instance.NoteMissed();
+            }
+        }
     }
+    
     // This may be better done as a coroutine that loads the level in a loading screen before playing the actual song
     /// <summary>
     /// Generates the notes that are going to be played in this column
