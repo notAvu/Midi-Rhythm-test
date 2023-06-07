@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 
 public class SpawnColumn : MonoBehaviour
 {
+    #region constants
     public const float COLUMN_WIDTH = 0;
+    #endregion
+    #region components
     [SerializeField]
-    private RhythmInput actions;
+    private AudioSource hitAudioSource;
+    [SerializeField]
+    private AudioSource missAudioSource;
+    #endregion
+    #region gameObject attributes
     public int ColumnIndex;
     [SerializeField]
     public Vector2 spawnPosition;
@@ -15,6 +22,8 @@ public class SpawnColumn : MonoBehaviour
     public Vector2 despawnPosition;
     [SerializeField]
     private KeyCode input;//TODO: Establecer el sistema de input 
+    #endregion
+    #region notes
     [SerializeField]
     [Header("Single hit note prefab")]
     private GameObject singleNotePrefab;
@@ -22,10 +31,14 @@ public class SpawnColumn : MonoBehaviour
     [Header("Long note prefab")]
     private GameObject longNotePrefab;
     private List<GameObject> notes = new List<GameObject>();
+    private int inputIndex; //the index of thenext note to be hit in this lane 
+    #endregion
+    #region TODO: rework conductor system as a singleton or similar
     RhythmConductor conductor;
+    #endregion
     [HideInInspector]
     public Transform HitBar;
-    private int inputIndex; //the index of thenext note to be hit in this lane 
+    #region unity events
     private void Awake()
     {
         conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
@@ -33,12 +46,11 @@ public class SpawnColumn : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(input))
-        {
-            ReadInput();
-        }
+        Debug.Log($"Input Index: {inputIndex} \n Lane {ColumnIndex}");
     }
-    private void ReadInput()
+    #endregion
+    #region Input management
+    private void OnInput()
     {
         var currentNoteTs = notes[inputIndex].GetComponent<NoteScript>().assignedTime;
         var songTime = conductor.songPositionSeconds;
@@ -48,14 +60,17 @@ public class SpawnColumn : MonoBehaviour
             if (Mathf.Abs(songTime-currentNoteTs)<hitWindowDiff)
             {
                 ScoreManager.Instance.NoteHit();
+                hitAudioSource.Play();
             }
             else
             {
                 ScoreManager.Instance.NoteMissed();
+                missAudioSource.Play();
             }
         }
     }
-    
+    #endregion
+    #region note instantiation
     // This may be better done as a coroutine that loads the level in a loading screen before playing the actual song
     /// <summary>
     /// Generates the notes that are going to be played in this column
@@ -115,4 +130,5 @@ public class SpawnColumn : MonoBehaviour
         noteScript.InstantiationTimestamp = noteScript.NoteTimestamp - (conductor.secondsPerNote * 8); //TODO: ajustar, probablemente este sea el problema que hace que el timing vaya regu
         notes.Add(newNote);
     }
+    #endregion
 }

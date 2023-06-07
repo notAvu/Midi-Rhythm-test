@@ -27,7 +27,7 @@ public class SingleHitNote : MonoBehaviour
         //Debug.Log(t);
         if(noteData.NoteIndex == 110)
         {
-            Debug.Log(t);
+            //Debug.Log(t);
         }
         //var aux = InstantiationTimestamp / conductor.secondsPerNote;
         if (t > 1)
@@ -36,7 +36,7 @@ public class SingleHitNote : MonoBehaviour
         }
         else 
         {
-            transform.position = Vector2.Lerp(column.spawnPosition,column.despawnPosition, t); //TODO:check if this syncs with audio 
+            transform.position = Vector2.Lerp(column.spawnPosition,column.despawnPosition, t); //TODO:switch despawn position to hit position and then make it go from hitposition to spawnposition
         }
     }
 }
