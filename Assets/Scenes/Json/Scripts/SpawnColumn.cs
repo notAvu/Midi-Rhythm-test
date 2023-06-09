@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;
 
 public class SpawnColumn : MonoBehaviour
 {
@@ -20,8 +20,6 @@ public class SpawnColumn : MonoBehaviour
     public Vector2 spawnPosition;
     [SerializeField]
     public Vector2 despawnPosition;
-    [SerializeField]
-    private KeyCode input;//TODO: Establecer el sistema de input 
     #endregion
     #region notes
     [SerializeField]
@@ -31,43 +29,107 @@ public class SpawnColumn : MonoBehaviour
     [Header("Long note prefab")]
     private GameObject longNotePrefab;
     private List<GameObject> notes = new List<GameObject>();
-    private int inputIndex; //the index of thenext note to be hit in this lane 
+    public int InputIndex { get; set; } //the index of thenext note to be hit in this lane 
     #endregion
     #region TODO: rework conductor system as a singleton or similar
     RhythmConductor conductor;
     #endregion
     [HideInInspector]
     public Transform HitBar;
+    #region input 
+    private RhythmInput inputActions;
+    #endregion
     #region unity events
     private void Awake()
     {
         conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
+        inputActions = new RhythmInput();
         HitBar = GameObject.Find("HitBar").transform;
+    }
+    private void Start()
+    {
+        //var x = GameObject.Find("InputManager").GetComponent<PlayerInput>();
+        //playerInput = x;
+        //playerInput.actions[$"Lane{ColumnIndex + 1}Input"].performed += ctx => OnButtonPress();
+        //playerInput.actions[$"Lane{ColumnIndex + 1}Input"].canceled += ctx => OnButtonRelease();
+    }
+    InputAction inputAction;
+    private void OnEnable()
+    {
+        inputAction = ColumnIndex switch
+        {
+            0 => inputActions.SongInput.Lane1Input,
+            1 => inputActions.SongInput.Lane2Input,
+            2 => inputActions.SongInput.Lane3Input,
+            3 => inputActions.SongInput.Lane4Input,
+            _ => null
+        };
+        inputAction.performed += OnButtonPress;
+        inputAction.Enable();
+    }
+    private void OnDisable()
+    {
+        inputAction.Enable();
     }
     private void FixedUpdate()
     {
-        Debug.Log($"Input Index: {inputIndex} \n Lane {ColumnIndex}");
+        //Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}");
     }
     #endregion
     #region Input management
-    private void OnInput()
+
+    private void OnButtonPress(InputAction.CallbackContext context)
     {
-        var currentNoteTs = notes[inputIndex].GetComponent<NoteScript>().assignedTime;
+        //Debug.Log(context);
+        Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}");
+
+        //Debug.Break();
+        var lastInputTs = conductor.GetAudioSourceTime();
+        var currentNoteTs = notes[InputIndex].GetComponent<HitNote>().assignedTime;
+        var note = notes[InputIndex];
         var songTime = conductor.songPositionSeconds;
-        var hitWindowDiff = conductor.secondsPerNote*.3f;
-        if (true/*Input.GetKeyDown(input)*/)
+        var hitWindowDiff = conductor.secondsPerNote * .3f;
+
+        Debug.Log(conductor.GetAudioSourceTime());
+        //if (ctx.performed)
+        //{
+        if (Mathf.Abs(songTime - currentNoteTs) < hitWindowDiff)
         {
-            if (Mathf.Abs(songTime-currentNoteTs)<hitWindowDiff)
+            ScoreManager.Instance.NoteHit();
+            if (note.GetComponent<IHitObject>().GetType().Equals(typeof(SingleHitNote)))
             {
-                ScoreManager.Instance.NoteHit();
-                hitAudioSource.Play();
+                note.GetComponent<IHitObject>().Hit();
             }
-            else
+            else if (note.GetComponent<IHitObject>().GetType().Equals(typeof(LongNote)))
             {
-                ScoreManager.Instance.NoteMissed();
-                missAudioSource.Play();
+
             }
+            hitAudioSource.Play();
+            //InputIndex++;
         }
+        else
+        {
+            ScoreManager.Instance.NoteMissed();
+            if (note.GetComponent<IHitObject>().GetType().Equals(typeof(SingleHitNote)))
+            {
+                note.GetComponent<IHitObject>().Hit();
+            }
+            else if (note.GetComponent<IHitObject>().GetType().Equals(typeof(LongNote)))
+            {
+
+            }
+            missAudioSource.Play();
+            //InputIndex++;
+        }
+        //}
+    }
+    private void LongNoteHit()
+    {
+
+    }
+    private void OnButtonRelease(InputAction.CallbackContext context)
+    {
+
     }
     #endregion
     #region note instantiation

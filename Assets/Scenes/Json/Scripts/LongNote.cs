@@ -8,7 +8,7 @@ using UnityEngine;
 /// TODO: make headNote fall (Implement instantiation ts and that kind of stuff)
 /// </strong>
 /// </summary>
-public class LongNote : MonoBehaviour
+public class LongNote : MonoBehaviour, IHitObject
 {
     #region Attributes
     private RhythmConductor conductor;
@@ -68,6 +68,15 @@ public class LongNote : MonoBehaviour
                 transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, t);
             }
         }
+    }
+    public void Hit()
+    {
+        Column.InputIndex++;
+    }
+
+    public void Miss()
+    {
+        Column.InputIndex++;
     }
     private void LateUpdate()
     {

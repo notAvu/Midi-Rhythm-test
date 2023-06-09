@@ -7,36 +7,36 @@
             "actions": [
                 {
                     "name": "Lane1Input",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "b511c71e-526e-402e-9537-c0ed8a852b1d",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
                     "name": "Lane2Input",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "d690a378-ba45-479d-9894-c6cba70b675e",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
                     "name": "Lane3Input",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "2cea142e-8498-4a0f-80e5-dd7870e1de0c",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
                     "name": "Lane4Input",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "c2907f3c-155a-41e1-81fe-85b2df103577",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
