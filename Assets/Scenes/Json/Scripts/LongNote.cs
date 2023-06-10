@@ -35,7 +35,7 @@ public class LongNote : MonoBehaviour, IHitObject
     private void Awake()
     {
         
-        conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
+        //conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
     }
     private void Start()
     {
@@ -48,7 +48,7 @@ public class LongNote : MonoBehaviour, IHitObject
     }
     private void Update()
     {
-        TimeSinceInstantiation = conductor.songPositionSeconds - InstantiationTimestamp;
+        TimeSinceInstantiation = RhythmConductor.Instance.songPositionSeconds - InstantiationTimestamp;
         var t = TimeSinceInstantiation;
         //Debug.Log(t);
         if (t > 1)
@@ -58,7 +58,7 @@ public class LongNote : MonoBehaviour, IHitObject
                 Destroy(gameObject);
             }
         }
-        else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
+        else if (conductor.lastBeat >= InstantiationTimestamp / RhythmConductor.Instance.secondsPerNote)
         {
             if (BeingHit && transform.position.y <= Column.HitBar.transform.position.y)
             {

@@ -6,7 +6,6 @@ public class HitNote : MonoBehaviour
 {
     public NoteObject noteData;
     public SpawnColumn column;
-    public RhythmConductor conductor { get; set; }
     public float NoteTimestamp; 
     // Start is called before the first frame update
     void Start()

@@ -14,11 +14,11 @@ public class TickNoteScript : HitNote
     public LongNote HeadNote;
     private void Awake()
     {
-        conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
+        //conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
     }
     private void Update()
     {
-        TimeSienceInstantiation = conductor.songPositionSeconds - InstantiationTimestamp;
+        TimeSienceInstantiation = RhythmConductor.Instance.songPositionSeconds - InstantiationTimestamp;
         var t = TimeSienceInstantiation;
         if (t > 1)
         {
@@ -27,7 +27,7 @@ public class TickNoteScript : HitNote
                 Destroy(gameObject);
             }
         }
-        else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
+        else if (RhythmConductor.Instance.lastBeat >= InstantiationTimestamp / RhythmConductor.Instance.secondsPerNote)
         {
             if (HeadNote.BeingHit && transform.position.y <= Column.HitBar.transform.position.y)
             {

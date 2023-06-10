@@ -31,9 +31,6 @@ public class SpawnColumn : MonoBehaviour
     private List<GameObject> notes = new List<GameObject>();
     public int InputIndex { get; set; } //the index of thenext note to be hit in this lane 
     #endregion
-    #region TODO: rework conductor system as a singleton or similar
-    RhythmConductor conductor;
-    #endregion
     [HideInInspector]
     public Transform HitBar;
     #region input 
@@ -42,7 +39,6 @@ public class SpawnColumn : MonoBehaviour
     #region unity events
     private void Awake()
     {
-        conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
         inputActions = new RhythmInput();
         HitBar = GameObject.Find("HitBar").transform;
     }
@@ -83,11 +79,11 @@ public class SpawnColumn : MonoBehaviour
         //Debug.Log(context);
         //Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}");
         //Debug.Break();
-        var lastInputTs = conductor.GetAudioSourceTime();
+        var lastInputTs = RhythmConductor.Instance.GetAudioSourceTime();
         var currentNoteTs = notes[InputIndex].GetComponent<HitNote>().NoteTimestamp;
         var note = notes[InputIndex];
-        var songTime = conductor.songPositionSeconds;
-        var hitWindowDiff = conductor.secondsPerNote * 2f;
+        var songTime = RhythmConductor.Instance.songPositionSeconds;
+        var hitWindowDiff = RhythmConductor.Instance.secondsPerNote * 2f;
         var hitDiff = Mathf.Abs(songTime - currentNoteTs);
         //Debug.Log(conductor.GetAudioSourceTime());
         //if (ctx.performed)
@@ -107,7 +103,7 @@ public class SpawnColumn : MonoBehaviour
             hitAudioSource.Play();
             //InputIndex++;
         }
-        else if (hitDiff > hitWindowDiff && hitDiff < conductor.secondsPerNote*8)
+        else if (hitDiff > hitWindowDiff && hitDiff < RhythmConductor.Instance.secondsPerNote*8)
         {
             ScoreManager.Instance.NoteMissed();
             if (note.GetComponent<IHitObject>().GetType().Equals(typeof(SingleHitNote)))
@@ -165,12 +161,12 @@ public class SpawnColumn : MonoBehaviour
         longNoteScript.NoteData = note;
         longNoteScript.Column = this;
         longNoteScript.InstantiateNestedNotes();
-        longNoteScript.StartTime = longNoteScript.NoteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
-        longNoteScript.InstantiationTimestamp = longNoteScript.StartTime - (conductor.secondsPerNote * 8);
+        longNoteScript.StartTime = longNoteScript.NoteData.NoteIndex * RhythmConductor.Instance.secondsPerNote + RhythmConductor.Instance.offset;
+        longNoteScript.InstantiationTimestamp = longNoteScript.StartTime - (RhythmConductor.Instance.secondsPerNote * 8);
         longNoteScript.NestedNotes.ForEach(nested =>
         {
-            nested.GetComponent<TickNoteScript>().NoteTimestamp = nested.GetComponent<TickNoteScript>().noteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
-            nested.GetComponent<TickNoteScript>().InstantiationTimestamp = nested.GetComponent<TickNoteScript>().NoteTimestamp - (conductor.secondsPerNote * 8);
+            nested.GetComponent<TickNoteScript>().NoteTimestamp = nested.GetComponent<TickNoteScript>().noteData.NoteIndex * RhythmConductor.Instance.secondsPerNote + RhythmConductor.Instance.offset;
+            nested.GetComponent<TickNoteScript>().InstantiationTimestamp = nested.GetComponent<TickNoteScript>().NoteTimestamp - (RhythmConductor.Instance.secondsPerNote * 8);
             nested.GetComponent<TickNoteScript>().Column = this;
             notes.Add(nested);
         });
@@ -187,10 +183,10 @@ public class SpawnColumn : MonoBehaviour
         newNote.transform.position = spawnPosition;
         SingleHitNote noteScript = newNote.GetComponent<SingleHitNote>();
         noteScript.noteData = note;
-        noteScript.conductor = conductor;
+        //noteScript.RhythmConductor.Instance = RhythmConductor.Instance;
         noteScript.column = this;
-        noteScript.NoteTimestamp = noteScript.noteData.NoteIndex * conductor.secondsPerNote + conductor.offset;
-        noteScript.InstantiationTimestamp = noteScript.NoteTimestamp - (conductor.secondsPerNote * 8); //TODO: ajustar, probablemente este sea el problema que hace que el timing vaya regu
+        noteScript.NoteTimestamp = noteScript.noteData.NoteIndex * RhythmConductor.Instance.secondsPerNote + RhythmConductor.Instance.offset;
+        noteScript.InstantiationTimestamp = noteScript.NoteTimestamp - (RhythmConductor.Instance.secondsPerNote * 8); //TODO: ajustar, probablemente este sea el problema que hace que el timing vaya regu
         notes.Add(newNote);
     }
     #endregion

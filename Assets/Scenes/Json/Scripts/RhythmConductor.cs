@@ -7,6 +7,18 @@ using UnityEngine;
 
 public class RhythmConductor : MonoBehaviour
 {
+    private static RhythmConductor instance;
+    public static RhythmConductor Instance
+    {
+        get
+        {
+            if(instance == null)
+            {
+                instance = new RhythmConductor();
+            }
+            return instance;
+        }
+    }
     public TextAsset jsonFile;
     private AudioSource audioSource;
     public SongDataContainer songFiles;

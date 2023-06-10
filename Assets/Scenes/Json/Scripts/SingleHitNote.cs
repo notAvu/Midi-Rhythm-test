@@ -21,7 +21,7 @@ public class SingleHitNote : HitNote, IHitObject
     }
     private void Update()
     {
-        TimeSienceInstantiation = (float)conductor.GetAudioSourceTime() - InstantiationTimestamp;
+        TimeSienceInstantiation = (float)RhythmConductor.Instance.GetAudioSourceTime() - InstantiationTimestamp;
         var t = TimeSienceInstantiation;
         //Debug.Log(t);
         if(noteData.NoteIndex == 110)
