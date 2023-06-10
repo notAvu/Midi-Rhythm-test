@@ -36,7 +36,7 @@ public class ScoreManager : MonoBehaviour
     public void NoteHit()
     {
         comboCount++;
-        Debug.Log("Hit");
+        //Debug.Log("Hit");
         //Debug.Log($"combo count: {comboCount}");
         //Instance.hitSFX.Play();
     }
@@ -44,7 +44,7 @@ public class ScoreManager : MonoBehaviour
     {
         comboCount = 0;
 
-        Debug.Log("Miss");
+        //Debug.Log("Miss");
         //Instance.missSFX.Play();
     }
 }

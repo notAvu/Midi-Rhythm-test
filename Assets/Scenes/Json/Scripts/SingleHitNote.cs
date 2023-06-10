@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SingleHitNote : HitNote, IHitObject
@@ -16,6 +17,7 @@ public class SingleHitNote : HitNote, IHitObject
     {
         //InstantiationTimestamp = (float)conductor.GetAudioSourceTime();
         //transform.position = new Vector3(0, 6, 0);
+        DrawIndex();
     }
     private void Update()
     {
@@ -47,4 +49,12 @@ public class SingleHitNote : HitNote, IHitObject
     {
         column.InputIndex++;
     }
+    #region Debug methods
+    [SerializeField]
+    private TextMeshProUGUI s;
+    private void DrawIndex()
+    {
+        s.text = $"{noteData.NoteIndex}";
+    }
+    #endregion
 }

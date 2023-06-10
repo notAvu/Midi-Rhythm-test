@@ -73,7 +73,7 @@ public class SpawnColumn : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}");
+        Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}  notes:{notes.Count}");
     }
     #endregion
     #region Input management
@@ -82,19 +82,18 @@ public class SpawnColumn : MonoBehaviour
     {
         //Debug.Log(context);
         //Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}");
-
         //Debug.Break();
         var lastInputTs = conductor.GetAudioSourceTime();
         var currentNoteTs = notes[InputIndex].GetComponent<HitNote>().NoteTimestamp;
         var note = notes[InputIndex];
         var songTime = conductor.songPositionSeconds;
-        var hitWindowDiff = conductor.secondsPerNote * .7f;
-
-        Debug.Log(conductor.GetAudioSourceTime());
+        var hitWindowDiff = conductor.secondsPerNote * 2f;
+        var hitDiff = Mathf.Abs(songTime - currentNoteTs);
+        //Debug.Log(conductor.GetAudioSourceTime());
         //if (ctx.performed)
         //{
-        Debug.Log($"SongTime: {songTime}, CurrentNoteTs: {currentNoteTs}, secDiff:{hitWindowDiff}");
-        if (Mathf.Abs(songTime - currentNoteTs) < hitWindowDiff)
+        //Debug.Log($"SongTime: {songTime}, CurrentNoteTs: {currentNoteTs}, secDiff:{hitWindowDiff}");
+        if (hitDiff < hitWindowDiff)
         {
             ScoreManager.Instance.NoteHit();
             if (note.GetComponent<IHitObject>().GetType().Equals(typeof(SingleHitNote)))
@@ -108,12 +107,13 @@ public class SpawnColumn : MonoBehaviour
             hitAudioSource.Play();
             //InputIndex++;
         }
-        else
+        else if (hitDiff > hitWindowDiff && hitDiff < conductor.secondsPerNote*8)
         {
             ScoreManager.Instance.NoteMissed();
             if (note.GetComponent<IHitObject>().GetType().Equals(typeof(SingleHitNote)))
             {
                 note.GetComponent<IHitObject>().Hit();
+                Destroy(note.gameObject);
             }
             else if (note.GetComponent<IHitObject>().GetType().Equals(typeof(LongNote)))
             {
