@@ -6,7 +6,7 @@ public class SingleHitNote : HitNote, IHitObject
 {
     //TODO Get position and instantiation from lanes 
     public float InstantiationTimestamp;
-    public float NoteTimestamp;
+    //public float NoteTimestamp;
     private float TimeSienceInstantiation;
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class SingleHitNote : HitNote, IHitObject
         //Debug.Log(t);
         if(noteData.NoteIndex == 110)
         {
-            Debug.Log(gameObject.GetComponent<IHitObject>().GetType().Name);
+            //Debug.Log(gameObject.GetComponent<IHitObject>().GetType().Name);
         }
         //var aux = InstantiationTimestamp / conductor.secondsPerNote;
         if (t > 1)

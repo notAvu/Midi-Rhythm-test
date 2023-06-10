@@ -34,6 +34,7 @@ public class LongNote : MonoBehaviour, IHitObject
     #region Unity Events
     private void Awake()
     {
+        
         conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
     }
     private void Start()

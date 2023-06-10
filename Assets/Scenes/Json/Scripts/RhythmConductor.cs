@@ -53,7 +53,7 @@ public class RhythmConductor : MonoBehaviour
     }
     private void Update()
     {
-        songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime) - offset);
+        songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime) + offset);
         songPosition = songPositionSeconds / secondsPerNote;
         if (lastBeat > 0 && (int)lastBeat != BeatBar.LastIndex && lastBeat % 8 == 0)
         {

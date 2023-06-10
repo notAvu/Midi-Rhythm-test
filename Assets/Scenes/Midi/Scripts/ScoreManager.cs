@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static ScoreManager Instance;
+    private static ScoreManager instance;
+    public static ScoreManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new ScoreManager();
+            }
+            return instance;
+        }
+    }
     [SerializeField]
     private AudioSource hitSFX;
     [SerializeField]
@@ -14,7 +25,6 @@ public class ScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
         comboCount = 0;
     }
 
@@ -26,13 +36,15 @@ public class ScoreManager : MonoBehaviour
     public void NoteHit()
     {
         comboCount++;
+        Debug.Log("Hit");
         //Debug.Log($"combo count: {comboCount}");
         //Instance.hitSFX.Play();
     }
     public void NoteMissed()
     {
         comboCount = 0;
-        //Debug.Log("Miss");
+
+        Debug.Log("Miss");
         //Instance.missSFX.Play();
     }
 }

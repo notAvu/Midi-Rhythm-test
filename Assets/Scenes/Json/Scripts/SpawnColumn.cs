@@ -81,18 +81,19 @@ public class SpawnColumn : MonoBehaviour
     private void OnButtonPress(InputAction.CallbackContext context)
     {
         //Debug.Log(context);
-        Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}");
+        //Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}");
 
         //Debug.Break();
         var lastInputTs = conductor.GetAudioSourceTime();
-        var currentNoteTs = notes[InputIndex].GetComponent<HitNote>().assignedTime;
+        var currentNoteTs = notes[InputIndex].GetComponent<HitNote>().NoteTimestamp;
         var note = notes[InputIndex];
         var songTime = conductor.songPositionSeconds;
-        var hitWindowDiff = conductor.secondsPerNote * .3f;
+        var hitWindowDiff = conductor.secondsPerNote * .7f;
 
         Debug.Log(conductor.GetAudioSourceTime());
         //if (ctx.performed)
         //{
+        Debug.Log($"SongTime: {songTime}, CurrentNoteTs: {currentNoteTs}, secDiff:{hitWindowDiff}");
         if (Mathf.Abs(songTime - currentNoteTs) < hitWindowDiff)
         {
             ScoreManager.Instance.NoteHit();

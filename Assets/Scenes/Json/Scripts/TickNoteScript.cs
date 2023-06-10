@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TickNoteScript : MonoBehaviour
+public class TickNoteScript : HitNote
 {
     //TODO Get position and instantiation from lanes 
-    public NoteObject noteData;
+    //public NoteObject noteData;
     public float InstantiationTimestamp;
-    public float NoteTimestamp;
+    //public float NoteTimestamp;
     private float TimeSienceInstantiation;
     public SpawnColumn Column;
-    public RhythmConductor conductor { private get; set; }
+    //public RhythmConductor conductor { private get; set; }
     public LongNote HeadNote;
     private void Awake()
     {
