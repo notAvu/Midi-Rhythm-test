@@ -7,6 +7,19 @@ using UnityEngine;
 
 public class RhythmConductor : MonoBehaviour
 {
+    private static RhythmConductor instance;
+    public static RhythmConductor Instance
+    {
+        get
+        {
+            //if(instance == null)
+            //{
+            //    instance = new GameObject().AddComponent<RhythmConductor>();
+            //    instance.name = "RhythmConductor";
+            //}
+            return instance;
+        }
+    }
     public TextAsset jsonFile;
     private AudioSource audioSource;
     public SongDataContainer songFiles;
@@ -15,22 +28,30 @@ public class RhythmConductor : MonoBehaviour
 
     private int songBpm;
     private int notesPerBeat;
-    public float secondsPerNote;
+    public double secondsPerNote;
 
     public float offset;
     [HideInInspector]
     public int columnCount;
 
-    public float songPosition;
-    public float songPositionSeconds;
-    public float lastBeat;
-    private float dpsTime;
+    public double songPosition;
+    public double songPositionSeconds;
+    public double lastBeat;
+    private double dpsTime;
 
     private List<SpawnColumn> lanes;
 
     private void Awake()
     {
         songFiles = GameObject.FindGameObjectWithTag("SongLoader").GetComponent<FancySongSelect>().selectedSong.songDataContainer;
+        if (Instance != this && Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
         this.jsonFile = songFiles.beatmapJson;
         ReadBeatmapInfo();
     }
@@ -45,20 +66,24 @@ public class RhythmConductor : MonoBehaviour
         lastBeat = 0;
         audioSource = GetComponent<AudioSource>();
         this.audioSource.clip = songFiles.audioClip;
-        dpsTime = (float)AudioSettings.dspTime;
+        dpsTime = AudioSettings.dspTime;
         secondsPerNote = 60f / (songBpm * notesPerBeat);
         FindLanes();
         InstantiateWholeMap();
+        //songPositionSeconds = (float)(AudioSettings.dspTime - dpsTime) + offset;
+        Invoke(nameof(PlaySong), offset);
+    }
+    private void PlaySong() {
         audioSource.Play();
     }
     private void Update()
     {
-        songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime) - offset);
+        songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime) );
         songPosition = songPositionSeconds / secondsPerNote;
         if (lastBeat > 0 && (int)lastBeat != BeatBar.LastIndex && lastBeat % 8 == 0)
         {
             BeatBar.LastIndex = (int)lastBeat;
-            SpawnBar();
+            //SpawnBar();
         }
         if (songPosition > lastBeat + secondsPerNote)
         {
@@ -97,12 +122,12 @@ public class RhythmConductor : MonoBehaviour
             l.InstantiateNotes(columnNotes);
         }
     }
-    private void SpawnBar()//This is actually just trash xd
-    {
-        var uwu = Instantiate(beatBar);
-        uwu.GetComponent<BeatBar>().CurrentIndex = (int)lastBeat;
-        uwu.GetComponent<BeatBar>().InstantiationTimestamp = lastBeat * secondsPerNote;
-    }
+    //private void SpawnBar()//This is actually just trash xd
+    //{
+    //    var uwu = Instantiate(beatBar);
+    //    uwu.GetComponent<BeatBar>().CurrentIndex = (int)lastBeat;
+    //    uwu.GetComponent<BeatBar>().InstantiationTimestamp = lastBeat * secondsPerNote;
+    //}
     public double GetAudioSourceTime()
     {
         return (double) audioSource.timeSamples / audioSource.clip.frequency;

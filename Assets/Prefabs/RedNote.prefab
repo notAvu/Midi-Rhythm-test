@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20ffaf3a527bf73439ee9b1d67228fb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InstantiationTimestamp: 0
+  column: {fileID: 0}
   NoteTimestamp: 0
-  index: 0
+  InstantiationTimestamp: 0
+  s: {fileID: 0}

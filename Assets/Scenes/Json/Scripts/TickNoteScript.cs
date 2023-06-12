@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TickNoteScript : MonoBehaviour
+public class TickNoteScript : HitNote
 {
     //TODO Get position and instantiation from lanes 
-    public NoteObject noteData;
-    public float InstantiationTimestamp;
-    public float NoteTimestamp;
-    private float TimeSienceInstantiation;
+    //public NoteObject noteData;
+    public double InstantiationTimestamp;
+    //public float NoteTimestamp;
+    private double TimeSienceInstantiation;
     public SpawnColumn Column;
-    public RhythmConductor conductor { private get; set; }
+    //public RhythmConductor conductor { private get; set; }
     public LongNote HeadNote;
     private void Awake()
     {
-        conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
+        //conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
     }
     private void Update()
     {
-        TimeSienceInstantiation = conductor.songPositionSeconds - InstantiationTimestamp;
+        TimeSienceInstantiation = RhythmConductor.Instance.songPositionSeconds - InstantiationTimestamp;
         var t = TimeSienceInstantiation;
         if (t > 1)
         {
@@ -27,7 +27,7 @@ public class TickNoteScript : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
+        else if (RhythmConductor.Instance.lastBeat >= InstantiationTimestamp / RhythmConductor.Instance.secondsPerNote)
         {
             if (HeadNote.BeingHit && transform.position.y <= Column.HitBar.transform.position.y)
             {
@@ -35,7 +35,7 @@ public class TickNoteScript : MonoBehaviour
             }
             else
             {
-                transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, t);
+                transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, (float)t);
             }
         }
     }

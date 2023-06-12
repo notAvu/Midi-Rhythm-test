@@ -8,7 +8,7 @@ using UnityEngine;
 /// TODO: make headNote fall (Implement instantiation ts and that kind of stuff)
 /// </strong>
 /// </summary>
-public class LongNote : MonoBehaviour
+public class LongNote : MonoBehaviour, IHitObject
 {
     #region Attributes
     private RhythmConductor conductor;
@@ -20,10 +20,10 @@ public class LongNote : MonoBehaviour
     /// <summary>
     /// The timestamp at which this note starts moving in the screen
     /// </summary>
-    public float InstantiationTimestamp;
-    public float TimeSinceInstantiation;
-    public float StartTime;//TODO: APPLY THE PATTERN OsuMania USES
-    public float EndTime;
+    public double InstantiationTimestamp;
+    public double TimeSinceInstantiation;
+    public double StartTime;//TODO: APPLY THE PATTERN OsuMania USES
+    public double EndTime;
     /// <summary>
     /// The list of ticks that forms the long note
     /// </summary>
@@ -34,7 +34,8 @@ public class LongNote : MonoBehaviour
     #region Unity Events
     private void Awake()
     {
-        conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
+        
+        //conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
     }
     private void Start()
     {
@@ -47,7 +48,7 @@ public class LongNote : MonoBehaviour
     }
     private void Update()
     {
-        TimeSinceInstantiation = conductor.songPositionSeconds - InstantiationTimestamp;
+        TimeSinceInstantiation = RhythmConductor.Instance.songPositionSeconds - InstantiationTimestamp;
         var t = TimeSinceInstantiation;
         //Debug.Log(t);
         if (t > 1)
@@ -57,7 +58,7 @@ public class LongNote : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
+        else if (conductor.lastBeat >= InstantiationTimestamp / RhythmConductor.Instance.secondsPerNote)
         {
             if (BeingHit && transform.position.y <= Column.HitBar.transform.position.y)
             {
@@ -65,9 +66,18 @@ public class LongNote : MonoBehaviour
             }
             else
             {
-                transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, t);
+                transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, (float)t);
             }
         }
+    }
+    public void Hit()
+    {
+        Column.InputIndex++;
+    }
+
+    public void Miss()
+    {
+        Column.InputIndex++;
     }
     private void LateUpdate()
     {
