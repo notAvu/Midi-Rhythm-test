@@ -6,9 +6,9 @@ using UnityEngine;
 public class SingleHitNote : HitNote, IHitObject
 {
     //TODO Get position and instantiation from lanes 
-    public float InstantiationTimestamp;
+    public double InstantiationTimestamp;
     //public float NoteTimestamp;
-    private float TimeSienceInstantiation;
+    private double TimeSienceInstantiation;
     private void Awake()
     {
         //conductor = GameObject.Find("RhythmConductor").GetComponent<RhythmConductor>();
@@ -21,14 +21,8 @@ public class SingleHitNote : HitNote, IHitObject
     bool aux = true;
     private void Update()
     {
-        DrawIndex();
-        TimeSienceInstantiation = (float)RhythmConductor.Instance.GetAudioSourceTime() - InstantiationTimestamp;
+        TimeSienceInstantiation = RhythmConductor.Instance.GetAudioSourceTime() - InstantiationTimestamp;
         var t = TimeSienceInstantiation;
-        //Debug.Log(t);
-        if (Mathf.Approximately(NoteTimestamp, RhythmConductor.Instance.songPositionSeconds))
-        {
-            s.text = $"HitTime";
-        }
         //var aux = InstantiationTimestamp / conductor.secondsPerNote;
         if (t > 1)
         {
@@ -41,26 +35,24 @@ public class SingleHitNote : HitNote, IHitObject
         }
         else
         {
-            transform.position = Vector2.Lerp(column.spawnPosition, column.despawnPosition, t); //TODO:switch despawn position to hit position and then make it go from hitposition to spawnposition
+            transform.position = Vector2.Lerp(column.spawnPosition, column.despawnPosition, (float)t); //TODO:switch despawn position to hit position and then make it go from hitposition to spawnposition
         }
     }
 
     public void Hit()
     {
         column.InputIndex++;
+        ScoreManager.Instance.NoteHit();
         Destroy(gameObject);
     }
 
     public void Miss()
     {
         column.InputIndex++;
+        ScoreManager.Instance.NoteMissed();
+        //Destroy(gameObject);
     }
     #region Debug methods
-    [SerializeField]
-    private TextMeshProUGUI s;
-    private void DrawIndex()
-    {
-        s.text = $"C_I_{column.InputIndex}";
-    }
+
     #endregion
 }

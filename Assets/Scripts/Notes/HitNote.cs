@@ -6,7 +6,7 @@ public class HitNote : MonoBehaviour
 {
     public NoteObject noteData;
     public SpawnColumn column;
-    public float NoteTimestamp; 
+    public double NoteTimestamp; 
     // Start is called before the first frame update
     void Start()
     {

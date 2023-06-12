@@ -8,8 +8,8 @@ public class BeatBar : MonoBehaviour
     private static float lineThickness; 
     public static int LastIndex { get; set; }
     public int CurrentIndex;//This is actually a very lazy solution to avoid duplicated bars instantiating from rhythmConductor
-    public float InstantiationTimestamp;
-    private float TimeSienceInstantiation;
+    public double InstantiationTimestamp;
+    private double TimeSienceInstantiation;
     public RhythmConductor conductor { private get; set; }
     private void Awake()
     {
@@ -30,7 +30,7 @@ public class BeatBar : MonoBehaviour
         }
         else if (conductor.lastBeat >= InstantiationTimestamp / conductor.secondsPerNote)
         {
-            transform.position = Vector2.Lerp(new Vector2(0,6), new Vector2(0, -3), t);
+            transform.position = Vector2.Lerp(new Vector2(0,6), new Vector2(0, -3), (float)t);
         }
     }
 }

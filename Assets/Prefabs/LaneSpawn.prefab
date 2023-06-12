@@ -231,7 +231,7 @@ MonoBehaviour:
   missAudioSource: {fileID: 885438237639473528}
   ColumnIndex: 0
   spawnPosition: {x: -5.5, y: 6}
-  despawnPosition: {x: -5.5, y: -5.5}
+  despawnPosition: {x: -5.5, y: -6}
   singleNotePrefab: {fileID: 6362923451960482973, guid: 0b79f1f40c5aa5a46a4df39acb5a5e08, type: 3}
   longNotePrefab: {fileID: 1256314851177894517, guid: 9d51235f733021d41a4389bcbc219aed, type: 3}
   HitBar: {fileID: 0}
@@ -260,7 +260,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6925068019870216305}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -9.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

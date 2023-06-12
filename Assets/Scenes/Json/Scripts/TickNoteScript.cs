@@ -6,9 +6,9 @@ public class TickNoteScript : HitNote
 {
     //TODO Get position and instantiation from lanes 
     //public NoteObject noteData;
-    public float InstantiationTimestamp;
+    public double InstantiationTimestamp;
     //public float NoteTimestamp;
-    private float TimeSienceInstantiation;
+    private double TimeSienceInstantiation;
     public SpawnColumn Column;
     //public RhythmConductor conductor { private get; set; }
     public LongNote HeadNote;
@@ -35,7 +35,7 @@ public class TickNoteScript : HitNote
             }
             else
             {
-                transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, t);
+                transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, (float)t);
             }
         }
     }

@@ -20,10 +20,10 @@ public class LongNote : MonoBehaviour, IHitObject
     /// <summary>
     /// The timestamp at which this note starts moving in the screen
     /// </summary>
-    public float InstantiationTimestamp;
-    public float TimeSinceInstantiation;
-    public float StartTime;//TODO: APPLY THE PATTERN OsuMania USES
-    public float EndTime;
+    public double InstantiationTimestamp;
+    public double TimeSinceInstantiation;
+    public double StartTime;//TODO: APPLY THE PATTERN OsuMania USES
+    public double EndTime;
     /// <summary>
     /// The list of ticks that forms the long note
     /// </summary>
@@ -66,7 +66,7 @@ public class LongNote : MonoBehaviour, IHitObject
             }
             else
             {
-                transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, t);
+                transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, (float)t);
             }
         }
     }
