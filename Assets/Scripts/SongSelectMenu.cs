@@ -83,7 +83,6 @@ public class SongSelectMenu : MonoBehaviour
     }
     private IEnumerator TriggerFade(float seconds, Song song)
     {
-
         audioPlayer.outputAudioMixerGroup.audioMixer.FindSnapshot("Off").TransitionTo(seconds);
         yield return new WaitForSeconds(seconds);
         if (selectedSong != null)

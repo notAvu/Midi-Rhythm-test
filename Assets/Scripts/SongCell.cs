@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +10,13 @@ class SongCell : FancyCell<Song, Context>
     [SerializeField] Animator animator = default;
     [SerializeField] Text message = default;
     [SerializeField] Text messageLarge = default;
+    [SerializeField] Text bpm;
+    [SerializeField] Text difficulty;//PlaceHolder
     [SerializeField] Image image = default;
     [SerializeField] Image imageLarge = default;
     [SerializeField] Button button = default;
-
+    [SerializeField] Button playBtn ;
+    public static Action ClickPlay; //placeholder
     static class AnimatorHash
     {
         public static readonly int Scroll = Animator.StringToHash("scroll");
@@ -22,12 +25,13 @@ class SongCell : FancyCell<Song, Context>
     void Start()
     {
         button.onClick.AddListener(() => Context.OnCellClicked?.Invoke(Index));
+        playBtn.onClick.AddListener(() => ClickPlay?.Invoke());
     }
-
     public override void UpdateContent(Song itemData)
     {
         message.text = itemData.songName;
         messageLarge.text = itemData.songName;
+        bpm.text = itemData.bpm.ToString();
         var selected = Context.SelectedIndex == Index;
         //imageLarge.color = image.color = selected
         //    ? new Color32(255, 255, 255, 100)

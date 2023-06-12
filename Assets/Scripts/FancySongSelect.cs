@@ -21,12 +21,13 @@ public class FancySongSelect : MonoBehaviour
     public AudioSource audioPlayer;
     private List<Song> songs;
     [SerializeField]
-    private SongScroll songScrollView = default;
+    private SongScroll songScrollView;
     private void Awake()
     {
         DontDestroyOnLoad(this);
         parser = new JsonBeatmapParser();
         songs = new List<Song>();
+        //SongCell.ClickPlay += GoToPlayScene;
         LoadSongs();
     }
     private void Start()
@@ -72,6 +73,7 @@ public class FancySongSelect : MonoBehaviour
     public void GoToPlayScene()
     {
         SceneManager.LoadScene("NoteParserTest");
+        dataContainer = selectedSong.songDataContainer;
         dataContainer.audioClip = selectedSong.songDataContainer.audioClip;
         dataContainer.beatmapJson = selectedSong.songDataContainer.beatmapJson;
         dataContainer.coverArt = selectedSong.songDataContainer.coverArt;
@@ -80,7 +82,6 @@ public class FancySongSelect : MonoBehaviour
     }
     private IEnumerator TriggerFade(float seconds, Song song)
     {
-
         audioPlayer.outputAudioMixerGroup.audioMixer.FindSnapshot("Off").TransitionTo(seconds);
         yield return new WaitForSeconds(seconds);
         if (selectedSong != null)

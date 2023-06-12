@@ -30,7 +30,7 @@ public class RhythmConductor : MonoBehaviour
 
     private void Awake()
     {
-        songFiles = GameObject.FindGameObjectWithTag("SongLoader").GetComponent<SongSelectMenu>().selectedSong.songDataContainer;
+        songFiles = GameObject.FindGameObjectWithTag("SongLoader").GetComponent<FancySongSelect>().selectedSong.songDataContainer;
         this.jsonFile = songFiles.beatmapJson;
         ReadBeatmapInfo();
     }
