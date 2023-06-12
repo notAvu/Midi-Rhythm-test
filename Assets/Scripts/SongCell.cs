@@ -15,8 +15,7 @@ class SongCell : FancyCell<Song, Context>
     [SerializeField] Image image = default;
     [SerializeField] Image imageLarge = default;
     [SerializeField] Button button = default;
-    [SerializeField] Button playBtn ;
-    public static Action ClickPlay; //placeholder
+    [SerializeField] Button playBtn;
     static class AnimatorHash
     {
         public static readonly int Scroll = Animator.StringToHash("scroll");
@@ -24,8 +23,7 @@ class SongCell : FancyCell<Song, Context>
 
     void Start()
     {
-        button.onClick.AddListener(() => Context.OnCellClicked?.Invoke(Index));
-        playBtn.onClick.AddListener(() => ClickPlay?.Invoke());
+        //playBtn.onClick.AddListener(() => ClickPlay?.Invoke());
     }
     public override void UpdateContent(Song itemData)
     {
@@ -52,6 +50,9 @@ class SongCell : FancyCell<Song, Context>
         animator.speed = 0;
     }
     float currentPosition = 0;
-
+    public void ClickItem()
+    {
+        Context.OnCellClicked?.Invoke(Index);
+    }
     void OnEnable() => UpdatePosition(currentPosition);
 }

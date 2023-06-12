@@ -545,7 +545,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 438801184399617197}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8721982994887881238}
+        m_TargetAssemblyTypeName: SongCell, Assembly-CSharp
+        m_MethodName: ClickItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6085694844071405712
 GameObject:
   m_ObjectHideFlags: 0
