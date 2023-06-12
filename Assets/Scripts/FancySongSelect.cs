@@ -1,26 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
-using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Audio;
 
-/// <summary>
-/// TODO: set this as a singleton
-/// </summary>
-public class SongSelectMenu : MonoBehaviour
+public class FancySongSelect : MonoBehaviour
 {
     [SerializeField]
     [Range(0, 1)]
     private float transitionDuration;
     [SerializeField]
     private GameObject prefab;
-    [SerializeField]
-    private GameObject scrollViewContent;
+    //[SerializeField]
+    //private GameObject scrollViewContent;
     private JsonBeatmapParser parser;
     [HideInInspector]
     public Song selectedSong;
+    [HideInInspector]
     public SongDataContainer dataContainer;
     public AudioSource audioPlayer;
     private List<Song> songs;
@@ -30,6 +26,7 @@ public class SongSelectMenu : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         parser = new JsonBeatmapParser();
+        songs = new List<Song>();
         LoadSongs();
     }
     private void Start()
@@ -42,7 +39,6 @@ public class SongSelectMenu : MonoBehaviour
     {
         var songFolderPath = Application.dataPath + "/Resources/Songs";
         DirectoryInfo i = new DirectoryInfo(songFolderPath);
-        songs = new List<Song>();
         foreach (var dir in i.GetDirectories())
         {
             CreateSongItem(dir.Name);
@@ -64,6 +60,7 @@ public class SongSelectMenu : MonoBehaviour
         itemScript.songName = beatmapInfo.name;
         itemScript.bpm = beatmapInfo.BPM;
         itemScript.lanes = beatmapInfo.maxBlock;
+        itemScript.songCoverImage = itemScript.songDataContainer.coverArt;
         songs.Add(itemScript);
         //songItem.gameObject.transform.SetParent(scrollViewContent.transform);
         itemScript.SelectedSongAction += SetSelectedSong;
