@@ -43,14 +43,14 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 8778844935977462324, guid: 52b14617795b1f042b45e67aafddc1ec, type: 2}
   m_audioClip: {fileID: 8300000, guid: c72b73f4c81451d4181320a7af5511ee, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 126
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -232,7 +232,6 @@ MonoBehaviour:
   ColumnIndex: 0
   spawnPosition: {x: -5.5, y: 6}
   despawnPosition: {x: -5.5, y: -5.5}
-  input: 276
   singleNotePrefab: {fileID: 6362923451960482973, guid: 0b79f1f40c5aa5a46a4df39acb5a5e08, type: 3}
   longNotePrefab: {fileID: 1256314851177894517, guid: 9d51235f733021d41a4389bcbc219aed, type: 3}
   HitBar: {fileID: 0}
@@ -279,7 +278,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 8778844935977462324, guid: 52b14617795b1f042b45e67aafddc1ec, type: 2}
   m_audioClip: {fileID: 8300000, guid: b98d56c3746dc574f8b6c414d1bc1097, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

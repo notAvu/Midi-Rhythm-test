@@ -65,60 +65,55 @@ public class SpawnColumn : MonoBehaviour
     }
     private void OnDisable()
     {
-        inputAction.Enable();
+        inputAction.Disable();
     }
     private void FixedUpdate()
     {
         Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}  notes:{notes.Count}");
+        //var note = notes[InputIndex];
+        //note.GetComponent<SpriteRenderer>().color = Color.black;
     }
     #endregion
     #region Input management
 
     private void OnButtonPress(InputAction.CallbackContext context)
     {
-        //Debug.Log(context);
-        //Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}");
-        //Debug.Break();
+        hitAudioSource.Play();
+
         var lastInputTs = RhythmConductor.Instance.GetAudioSourceTime();
         var currentNoteTs = notes[InputIndex].GetComponent<HitNote>().NoteTimestamp;
         var note = notes[InputIndex];
+        note.GetComponent<SpriteRenderer>().color = Color.black;
         var songTime = RhythmConductor.Instance.songPositionSeconds;
-        var hitWindowDiff = RhythmConductor.Instance.secondsPerNote * 2f;
+        var hitWindowDiff = 0.15f;
         var hitDiff = Mathf.Abs(songTime - currentNoteTs);
-        //Debug.Log(conductor.GetAudioSourceTime());
-        //if (ctx.performed)
-        //{
-        //Debug.Log($"SongTime: {songTime}, CurrentNoteTs: {currentNoteTs}, secDiff:{hitWindowDiff}");
         if (hitDiff < hitWindowDiff)
         {
             ScoreManager.Instance.NoteHit();
             if (note.GetComponent<IHitObject>().GetType().Equals(typeof(SingleHitNote)))
             {
                 note.GetComponent<IHitObject>().Hit();
+                //hitAudioSource.Play();
             }
             else if (note.GetComponent<IHitObject>().GetType().Equals(typeof(LongNote)))
             {
 
             }
-            hitAudioSource.Play();
-            //InputIndex++;
         }
-        else if (hitDiff > hitWindowDiff && hitDiff < RhythmConductor.Instance.secondsPerNote*8)
+        else if (hitDiff > hitWindowDiff && hitDiff < 0.2f)
         {
             ScoreManager.Instance.NoteMissed();
             if (note.GetComponent<IHitObject>().GetType().Equals(typeof(SingleHitNote)))
             {
-                note.GetComponent<IHitObject>().Hit();
+                note.GetComponent<IHitObject>().Miss();
+                //missAudioSource.Play();
                 Destroy(note.gameObject);
             }
             else if (note.GetComponent<IHitObject>().GetType().Equals(typeof(LongNote)))
             {
 
             }
-            missAudioSource.Play();
-            //InputIndex++;
         }
-        //}
     }
     private void LongNoteHit()
     {

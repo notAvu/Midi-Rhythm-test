@@ -12,10 +12,11 @@ public class RhythmConductor : MonoBehaviour
     {
         get
         {
-            if(instance == null)
-            {
-                instance = new RhythmConductor();
-            }
+            //if(instance == null)
+            //{
+            //    instance = new GameObject().AddComponent<RhythmConductor>();
+            //    instance.name = "RhythmConductor";
+            //}
             return instance;
         }
     }
@@ -42,6 +43,15 @@ public class RhythmConductor : MonoBehaviour
 
     private void Awake()
     {
+
+        if (Instance != this && Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
         songFiles = GameObject.FindGameObjectWithTag("SongLoader").GetComponent<SongSelectMenu>().selectedSong.songDataContainer;
         this.jsonFile = songFiles.beatmapJson;
         ReadBeatmapInfo();

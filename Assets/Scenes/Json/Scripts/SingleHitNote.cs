@@ -17,32 +17,38 @@ public class SingleHitNote : HitNote, IHitObject
     {
         //InstantiationTimestamp = (float)conductor.GetAudioSourceTime();
         //transform.position = new Vector3(0, 6, 0);
-        DrawIndex();
     }
+    bool aux = true;
     private void Update()
     {
+        DrawIndex();
         TimeSienceInstantiation = (float)RhythmConductor.Instance.GetAudioSourceTime() - InstantiationTimestamp;
         var t = TimeSienceInstantiation;
         //Debug.Log(t);
-        if(noteData.NoteIndex == 110)
+        if (Mathf.Approximately(NoteTimestamp, RhythmConductor.Instance.songPositionSeconds))
         {
-            //Debug.Log(gameObject.GetComponent<IHitObject>().GetType().Name);
+            s.text = $"HitTime";
         }
         //var aux = InstantiationTimestamp / conductor.secondsPerNote;
         if (t > 1)
         {
-            Destroy(gameObject);
-            Miss();
+            if (aux)
+            {
+                aux = false;
+                Miss();
+            }
+            //Destroy(gameObject);
         }
-        else 
+        else
         {
-            transform.position = Vector2.Lerp(column.spawnPosition,column.despawnPosition, t); //TODO:switch despawn position to hit position and then make it go from hitposition to spawnposition
+            transform.position = Vector2.Lerp(column.spawnPosition, column.despawnPosition, t); //TODO:switch despawn position to hit position and then make it go from hitposition to spawnposition
         }
     }
 
     public void Hit()
     {
         column.InputIndex++;
+        Destroy(gameObject);
     }
 
     public void Miss()
@@ -54,7 +60,7 @@ public class SingleHitNote : HitNote, IHitObject
     private TextMeshProUGUI s;
     private void DrawIndex()
     {
-        s.text = $"{noteData.NoteIndex}";
+        s.text = $"C_I_{column.InputIndex}";
     }
     #endregion
 }
