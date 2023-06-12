@@ -27,11 +27,11 @@ class SongCell : FancyCell<Song, Context>
     public override void UpdateContent(Song itemData)
     {
         message.text = itemData.songName;
-        messageLarge.text = Index.ToString();
+        messageLarge.text = itemData.songName;
         var selected = Context.SelectedIndex == Index;
         //imageLarge.color = image.color = selected
-        //    ? new Color32(0, 255, 255, 100)
-        //    : new Color32(255, 255, 255, 77);
+        //    ? new Color32(255, 255, 255, 100)
+        //    : new Color32(105, 255, 255, 12);
         image.sprite = itemData.songCoverImage;
         imageLarge.sprite = itemData.songCoverImage;
     }
