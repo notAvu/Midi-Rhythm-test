@@ -22,7 +22,7 @@ public class SingleHitNote : HitNote, IHitObject
         }
         else
         {
-            transform.position = Vector2.Lerp(column.spawnPosition, column.despawnPosition, (float)t); //TODO:switch despawn position to hit position and then make it go from hitposition to spawnposition
+            transform.position = Vector2.Lerp(column.transform.position, column.despawnPosition, (float)t); 
         }
     }
     public void Hit()

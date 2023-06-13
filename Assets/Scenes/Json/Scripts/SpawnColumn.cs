@@ -18,8 +18,8 @@ public class SpawnColumn : MonoBehaviour
     #region gameObject attributes
     public int ColumnIndex;
     [SerializeField]
-    public Vector2 spawnPosition;
-    [SerializeField]
+    private float despawnY = -6f;
+    [HideInInspector]
     public Vector2 despawnPosition;
     #endregion
     #region notes
@@ -43,6 +43,7 @@ public class SpawnColumn : MonoBehaviour
     {
         inputActions = new RhythmInput();
         HitBar = GameObject.Find("HitBar").transform;
+        despawnPosition = new Vector2(transform.position.x, despawnY);
     }
     private void OnEnable()
     {
@@ -76,7 +77,7 @@ public class SpawnColumn : MonoBehaviour
         var currentNoteTs = notes[InputIndex].GetComponent<HitNote>().NoteTimestamp;
         var note = notes[InputIndex];
         var songTime = RhythmConductor.Instance.songPositionSeconds;
-        var hitWindowDiff = .15f;
+        var hitWindowDiff = .1f;
         var hitDiff = Math.Abs(songTime - currentNoteTs);
         if (hitDiff < hitWindowDiff)
         {
@@ -91,6 +92,7 @@ public class SpawnColumn : MonoBehaviour
             if (note.GetComponent<IHitObject>().GetType().Equals(typeof(SingleHitNote)))
             {
                 note.GetComponent<IHitObject>().Miss();
+                missAudioSource.Play();
             }
         }
     }
@@ -130,7 +132,7 @@ public class SpawnColumn : MonoBehaviour
     private void AddLongNote(NoteObject note)
     {
         var longNoteHead = Instantiate(longNotePrefab);
-        longNoteHead.transform.position = spawnPosition;
+        longNoteHead.transform.position = transform.position;
         LongNote longNoteScript = longNoteHead.GetComponent<LongNote>();
         longNoteScript.NoteData = note;
         longNoteScript.Column = this;
@@ -154,7 +156,7 @@ public class SpawnColumn : MonoBehaviour
     private void AddSingleNote(NoteObject note)
     {
         var newNote = Instantiate(singleNotePrefab);
-        newNote.transform.position = spawnPosition;
+        newNote.transform.position = transform.position;
         SingleHitNote noteScript = newNote.GetComponent<SingleHitNote>();
         noteScript.noteData = note;
         //noteScript.RhythmConductor.Instance = RhythmConductor.Instance;

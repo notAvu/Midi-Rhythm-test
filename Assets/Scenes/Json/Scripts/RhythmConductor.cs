@@ -12,11 +12,6 @@ public class RhythmConductor : MonoBehaviour
     {
         get
         {
-            //if(instance == null)
-            //{
-            //    instance = new GameObject().AddComponent<RhythmConductor>();
-            //    instance.name = "RhythmConductor";
-            //}
             return instance;
         }
     }
@@ -52,7 +47,7 @@ public class RhythmConductor : MonoBehaviour
         {
             instance = this;
         }
-        this.jsonFile = songFiles.beatmapJson;
+        jsonFile = songFiles.beatmapJson;
         ReadBeatmapInfo();
     }
     private void FindLanes()

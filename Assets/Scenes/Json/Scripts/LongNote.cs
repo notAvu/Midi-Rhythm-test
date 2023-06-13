@@ -66,7 +66,7 @@ public class LongNote : MonoBehaviour, IHitObject
             }
             else
             {
-                transform.position = Vector2.Lerp(Column.spawnPosition, Column.despawnPosition, (float)t);
+                transform.position = Vector2.Lerp(Column.transform.position, Column.despawnPosition, (float)t);
             }
         }
     }
