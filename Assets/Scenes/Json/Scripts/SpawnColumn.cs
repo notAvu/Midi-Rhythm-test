@@ -33,9 +33,10 @@ public class SpawnColumn : MonoBehaviour
     public int InputIndex { get; set; } //the index of thenext note to be hit in this lane 
     #endregion
     [HideInInspector]
-    public Transform HitBar;
+    public Transform HitBar; //Hitbar is just a visual help to identify when the player should hit notes
     #region input 
     private RhythmInput inputActions;
+    private InputAction inputAction;
     #endregion
     #region unity events
     private void Awake()
@@ -43,14 +44,6 @@ public class SpawnColumn : MonoBehaviour
         inputActions = new RhythmInput();
         HitBar = GameObject.Find("HitBar").transform;
     }
-    private void Start()
-    {
-        //var x = GameObject.Find("InputManager").GetComponent<PlayerInput>();
-        //playerInput = x;
-        //playerInput.actions[$"Lane{ColumnIndex + 1}Input"].performed += ctx => OnButtonPress();
-        //playerInput.actions[$"Lane{ColumnIndex + 1}Input"].canceled += ctx => OnButtonRelease();
-    }
-    InputAction inputAction;
     private void OnEnable()
     {
         inputAction = ColumnIndex switch
@@ -71,22 +64,19 @@ public class SpawnColumn : MonoBehaviour
     private void FixedUpdate()
     {
         //Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}  notes:{notes.Count}");
-        //var note = notes[InputIndex];
-        //note.GetComponent<SpriteRenderer>().color = Color.black;
     }
     #endregion
     #region Input management
-
+    /// <summary>
+    /// Checks the note that should currently be hit/missed and triggers 
+    /// the coresponding note's <seealso cref="IHitObject"/> method
+    /// </summary>
     private void OnButtonPress(InputAction.CallbackContext context)
     {
-        //hitAudioSource.Play();
-        //var lastInputTs = RhythmConductor.Instance.GetAudioSourceTime();
         var currentNoteTs = notes[InputIndex].GetComponent<HitNote>().NoteTimestamp;
         var note = notes[InputIndex];
-        //note.GetComponent<SpriteRenderer>().color = Color.black;
         var songTime = RhythmConductor.Instance.songPositionSeconds;
-        var hitWindowDiff = 0.15f;
-        //Debug.Log($"Lane{ColumnIndex}: CurrentNote {currentNoteTs}, Songtime {songTime} ,diff{currentNoteTs-songTime}");
+        var hitWindowDiff = .15f;
         var hitDiff = Math.Abs(songTime - currentNoteTs);
         if (hitDiff < hitWindowDiff)
         {
@@ -95,29 +85,20 @@ public class SpawnColumn : MonoBehaviour
                 note.GetComponent<IHitObject>().Hit();
                 hitAudioSource.Play();
             }
-            else if (note.GetComponent<IHitObject>().GetType().Equals(typeof(LongNote)))
-            {
-
-            }
         }
-        else if (hitDiff > hitWindowDiff && hitDiff < 0.2f)
+        else if (hitDiff > hitWindowDiff && hitDiff < 0.25f)
         {
             if (note.GetComponent<IHitObject>().GetType().Equals(typeof(SingleHitNote)))
             {
                 note.GetComponent<IHitObject>().Miss();
-                //missAudioSource.Play();
-            }
-            else if (note.GetComponent<IHitObject>().GetType().Equals(typeof(LongNote)))
-            {
-
             }
         }
     }
-    private void LongNoteHit()
+    private void OnButtonRelease(InputAction.CallbackContext context)
     {
 
     }
-    private void OnButtonRelease(InputAction.CallbackContext context)
+    private void LongNoteHit()
     {
 
     }

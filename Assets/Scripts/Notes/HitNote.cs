@@ -1,21 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// A class that contains common data for different types of hittable objects (Single hit notes, Long notes, and possible future note types) <br/><br/>
+/// <b>TODO: should I make it implement <seealso cref="IHitObject"/>?</b>
+/// </summary>
 public class HitNote : MonoBehaviour
 {
     public NoteObject noteData;
     public SpawnColumn column;
-    public double NoteTimestamp; 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public double NoteTimestamp;
 }

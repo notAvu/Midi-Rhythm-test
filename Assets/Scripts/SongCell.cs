@@ -20,10 +20,9 @@ class SongCell : FancyCell<Song, Context>
     {
         public static readonly int Scroll = Animator.StringToHash("scroll");
     }
-
     void Start()
     {
-        //playBtn.onClick.AddListener(() => ClickPlay?.Invoke());
+        button.onClick.AddListener(() => Context.OnCellClicked?.Invoke(Index));
     }
     public override void UpdateContent(Song itemData)
     {
@@ -37,22 +36,15 @@ class SongCell : FancyCell<Song, Context>
         image.sprite = itemData.songCoverImage;
         imageLarge.sprite = itemData.songCoverImage;
     }
-
     public override void UpdatePosition(float position)
     {
         currentPosition = position;
-
         if (animator.isActiveAndEnabled)
         {
             animator.Play(AnimatorHash.Scroll, -1, position);
         }
-
         animator.speed = 0;
     }
     float currentPosition = 0;
-    public void ClickItem()
-    {
-        Context.OnCellClicked?.Invoke(Index);
-    }
     void OnEnable() => UpdatePosition(currentPosition);
 }
