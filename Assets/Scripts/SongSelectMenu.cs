@@ -6,9 +6,7 @@ using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
-/// <summary>
-/// TODO: set this as a singleton
-/// </summary>
+[Obsolete("Currently not used, "+nameof(FancySongSelect)+" is the new songselect menu manager", true)]
 public class SongSelectMenu : MonoBehaviour
 {
     [SerializeField]

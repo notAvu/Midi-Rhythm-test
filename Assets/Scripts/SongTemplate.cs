@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
+[Obsolete("Replaced by "+nameof(Song))]
 public class SongTemplate : MonoBehaviour
 {
     #region Song data
