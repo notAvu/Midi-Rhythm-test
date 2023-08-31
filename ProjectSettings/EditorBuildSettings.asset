@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Midi (unused)/MidiParserTest.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/SongSelect.unity
-    guid: ddaef7647b7eae24891a382aed7d7e13
+    path: Assets/Scenes/MainMenu.unity
+    guid: fcce8bbd6173979478594aac480e1cfc
+  - enabled: 1
+    path: Assets/Scenes/FancySongSelect.unity
+    guid: 31ffddde738984148bdba01b34559185
   - enabled: 1
     path: Assets/Scenes/NoteParserTest.unity
     guid: ee2f55736a8c08743958d1ddbe7e913f
+  - enabled: 1
+    path: Assets/Scenes/SongSelect.unity
+    guid: ddaef7647b7eae24891a382aed7d7e13
   m_configObjects: {}
