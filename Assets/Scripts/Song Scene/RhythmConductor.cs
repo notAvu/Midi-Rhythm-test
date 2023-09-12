@@ -69,7 +69,7 @@ public class RhythmConductor : MonoBehaviour
         Invoke(nameof(PlaySong), offset);
     }
     private void PlaySong() {
-        audioSource.Play();
+        audioSource.PlayScheduled(1f);
     }
     private void Update()
     {
