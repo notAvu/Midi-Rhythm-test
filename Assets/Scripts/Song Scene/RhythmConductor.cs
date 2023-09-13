@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class RhythmConductor : MonoBehaviour
 {
+    #region singleton
     private static RhythmConductor instance;
     public static RhythmConductor Instance
     {
@@ -15,27 +16,33 @@ public class RhythmConductor : MonoBehaviour
             return instance;
         }
     }
+    #endregion
+    #region External data
     public TextAsset jsonFile;
     private AudioSource audioSource;
     public SongDataContainer songFiles;
+    #endregion
+    #region USELESS STUFF
     [SerializeField]
     private GameObject beatBar;
-
+    #endregion
+    #region song info
     private int songBpm;
     private int notesPerBeat;
     public double secondsPerNote;
-
     public float offset;
     [HideInInspector]
     public int columnCount;
+    #endregion
 
+    #region song state 
     public double songPosition;
     public double songPositionSeconds;
     public double lastBeat;
     private double dpsTime;
-
+    #endregion
     private List<SpawnColumn> lanes;
-
+    #region Unity Events
     private void Awake()
     {
         songFiles = GameObject.FindGameObjectWithTag("SongLoader").GetComponent<FancySongSelect>().selectedSong.songDataContainer;
@@ -50,12 +57,7 @@ public class RhythmConductor : MonoBehaviour
         jsonFile = songFiles.beatmapJson;
         ReadBeatmapInfo();
     }
-    private void FindLanes()
-    {
-        lanes = new List<SpawnColumn>();
-        var lanesGo= GameObject.FindGameObjectsWithTag("Lane").ToList();
-        lanesGo.ForEach(a => lanes.Add(a.GetComponent<SpawnColumn>()));
-    }
+
     private void Start()
     {
         lastBeat = 0;
@@ -68,12 +70,13 @@ public class RhythmConductor : MonoBehaviour
         //songPositionSeconds = (float)(AudioSettings.dspTime - dpsTime) + offset;
         Invoke(nameof(PlaySong), offset);
     }
-    private void PlaySong() {
+    private void PlaySong()
+    {
         audioSource.PlayScheduled(1f);
     }
     private void Update()
     {
-        songPositionSeconds = (float)((AudioSettings.dspTime - dpsTime) );
+        songPositionSeconds = (float)(AudioSettings.dspTime - dpsTime);
         songPosition = songPositionSeconds / secondsPerNote;
         if (lastBeat > 0 && (int)lastBeat != BeatBar.LastIndex && lastBeat % 8 == 0)
         {
@@ -84,6 +87,14 @@ public class RhythmConductor : MonoBehaviour
         {
             lastBeat += secondsPerNote;
         }
+    }
+    #endregion
+    #region initial instantiation methods
+    private void FindLanes()
+    {
+        lanes = new List<SpawnColumn>();
+        var lanesGo = GameObject.FindGameObjectsWithTag("Lane").ToList();
+        lanesGo.ForEach(a => lanes.Add(a.GetComponent<SpawnColumn>()));
     }
     /// <summary>
     /// Reads the json file that contains the parameters of this song (bpm, offset, etc.) and notes 
@@ -98,7 +109,7 @@ public class RhythmConductor : MonoBehaviour
         notesPerBeat = beatmapInfo.notes[0].LPB;
         offset = (float)beatmapInfo.offset / 1000f;
         columnCount = beatmapInfo.maxBlock;
-        beatmapInfo.notes.ToList().ForEach(item => { var noteObj = new NoteObject(item); notes.Add(noteObj);});
+        beatmapInfo.notes.ToList().ForEach(item => { var noteObj = new NoteObject(item); notes.Add(noteObj); });
         return notes;
     }
     /// <summary>
@@ -113,18 +124,85 @@ public class RhythmConductor : MonoBehaviour
         List<NoteObject> beatmapNotes = ReadBeatmapInfo();
         foreach (var l in lanes)
         {
-            var columnNotes= beatmapNotes.Where(n => n.Column ==l.ColumnIndex).ToList();
+            var columnNotes = beatmapNotes.Where(n => n.Column == l.ColumnIndex).ToList();
             l.InstantiateNotes(columnNotes);
         }
     }
-    //private void SpawnBar()//This is actually just trash xd
-    //{
-    //    var uwu = Instantiate(beatBar);
-    //    uwu.GetComponent<BeatBar>().CurrentIndex = (int)lastBeat;
-    //    uwu.GetComponent<BeatBar>().InstantiationTimestamp = lastBeat * secondsPerNote;
-    //}
+    #endregion
+    #region timing stuff
     public double GetAudioSourceTime()
     {
-        return (double) audioSource.timeSamples / audioSource.clip.frequency;
+        return (double)audioSource.timeSamples / audioSource.clip.frequency;
     }
+    #region new timing system
+    private double currentSmoothDspTime;
+    private double alphaValue;
+    private double betaValue;
+    public void SmootherDSPTime()
+    {
+        double result = Time.unscaledTimeAsDouble * alphaValue + betaValue;
+        if (result > currentSmoothDspTime)
+        {
+            currentSmoothDspTime = result;
+        }
+    }
+    #region Linear regression
+    /// <summary>
+    /// Fits a line to a collection of (x,y) points.
+    /// </summary>
+    /// <param name="xVals">The x-axis values.</param>
+    /// <param name="yVals">The y-axis values.</param>
+    /// <param name="rSquared">The r^2 value of the line.</param>
+    /// <param name="yIntercept">The y-intercept value of the line (i.e. y = ax + b, yIntercept is b).</param>
+    /// <param name="slope">The slop of the line (i.e. y = ax + b, slope is a).</param>
+    public void LinearRegression(
+        double[] xVals,
+        double[] yVals,
+        out double rSquared,
+        out double yIntercept,
+        out double slope)
+    {
+        if (xVals.Length != yVals.Length)
+        {
+            throw new Exception("Input values should be with the same length.");
+        }
+
+        double sumOfX = 0;
+        double sumOfY = 0;
+        double sumOfXSq = 0;
+        double sumOfYSq = 0;
+        double sumCodeviates = 0;
+
+        for (var i = 0; i < xVals.Length; i++)
+        {
+            var x = xVals[i];
+            var y = yVals[i];
+            sumCodeviates += x * y;
+            sumOfX += x;
+            sumOfY += y;
+            sumOfXSq += x * x;
+            sumOfYSq += y * y;
+        }
+
+        var count = xVals.Length;
+        var ssX = sumOfXSq - ((sumOfX * sumOfX) / count);
+        //var ssY = sumOfYSq - ((sumOfY * sumOfY) / count);
+
+        var rNumerator = (count * sumCodeviates) - (sumOfX * sumOfY);
+        var rDenom = (count * sumOfXSq - (sumOfX * sumOfX)) * (count * sumOfYSq - (sumOfY * sumOfY));
+        var sCo = sumCodeviates - ((sumOfX * sumOfY) / count);
+
+        var meanX = sumOfX / count;
+        var meanY = sumOfY / count;
+        var dblR = rNumerator / Math.Sqrt(rDenom);
+
+        rSquared = dblR * dblR;
+        yIntercept = meanY - ((sCo / ssX) * meanX);
+        slope = sCo / ssX;
+        alphaValue = slope;
+        betaValue = yIntercept;
+    }
+    #endregion
+    #endregion
+    #endregion
 }

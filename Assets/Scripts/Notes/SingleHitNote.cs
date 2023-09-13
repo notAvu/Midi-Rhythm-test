@@ -18,7 +18,7 @@ public class SingleHitNote : HitNote, IHitObject
         }
         else if((RhythmConductor.Instance.GetAudioSourceTime()-NoteTimestamp) > 0)
         {
-
+            //TODO 
         }
         else
         {
