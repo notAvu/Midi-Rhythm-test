@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeConverter : MonoBehaviour
+public class RhythmConverter : MonoBehaviour
 {
     private double currentSmoothDspTime;
     private double alphaValue;
@@ -11,7 +11,7 @@ public class TimeConverter : MonoBehaviour
     public void smootherDSPTime()
     {
         double result = Time.unscaledTimeAsDouble * alphaValue + betaValue;
-        if(result> currentSmoothDspTime)
+        if (result > currentSmoothDspTime)
         {
             currentSmoothDspTime = result;
         }
@@ -66,9 +66,7 @@ public class TimeConverter : MonoBehaviour
         var dblR = rNumerator / Math.Sqrt(rDenom);
 
         rSquared = dblR * dblR;
-        yIntercept = meanY - ((sCo / ssX) * meanX);
-        slope = sCo / ssX;
-        alphaValue = slope;
-        betaValue = yIntercept;
+        betaValue = yIntercept = meanY - ((sCo / ssX) * meanX);
+        alphaValue = slope = sCo / ssX;
     }
 }

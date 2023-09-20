@@ -62,9 +62,22 @@ public class SpawnColumn : MonoBehaviour
     {
         inputAction.Disable();
     }
-    private void FixedUpdate()
+    [SerializeField]
+    [Header("TEST PREFAB JSUT FOR VISUAL REERENCE. REMOVE LATER")]
+    private GameObject testMarker;
+    private void Update()
     {
+        var songTime = RhythmConductor.Instance.songPositionSeconds;
+        var currentNote = notes[InputIndex];
+        var currentNoteTs = currentNote.GetComponent<HitNote>().NoteTimestamp;
+        var hitDiff = Math.Abs(songTime - currentNoteTs);
+        if (hitDiff <= 0.01)
+        {
+            var refer = Instantiate(testMarker);
+            refer.transform.position = currentNote.transform.position;
+        }
         //Debug.Log($"Input Index: {InputIndex} \n Lane {ColumnIndex}  notes:{notes.Count}");
+
     }
     #endregion
     #region Input management

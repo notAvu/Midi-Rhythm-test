@@ -34,7 +34,13 @@ public class RhythmConductor : MonoBehaviour
     [HideInInspector]
     public int columnCount;
     #endregion
-
+    #region new rhythm sync system values
+    private double currentSmoothDspTime;
+    private double alphaValue;
+    private double betaValue;
+    private List<double> gameTimeValues;
+    private List<double> dspTimeValues;
+    #endregion
     #region song state 
     public double songPosition;
     public double songPositionSeconds;
@@ -62,6 +68,7 @@ public class RhythmConductor : MonoBehaviour
     {
         lastBeat = 0;
         audioSource = GetComponent<AudioSource>();
+        var timeLeft = audioSource.clip.length - audioSource.time;
         this.audioSource.clip = songFiles.audioClip;
         dpsTime = AudioSettings.dspTime;
         secondsPerNote = 60f / (songBpm * notesPerBeat);
@@ -76,11 +83,15 @@ public class RhythmConductor : MonoBehaviour
     }
     private void Update()
     {
+        #region
+        //if(gameTimeValues.Count()<10)
+        #endregion
+
         songPositionSeconds = (float)(AudioSettings.dspTime - dpsTime);
         songPosition = songPositionSeconds / secondsPerNote;
         if (lastBeat > 0 && (int)lastBeat != BeatBar.LastIndex && lastBeat % 8 == 0)
         {
-            BeatBar.LastIndex = (int)lastBeat;
+            //BeatBar.LastIndex = (int)lastBeat;
             //SpawnBar();
         }
         if (songPosition > lastBeat + secondsPerNote)
@@ -135,9 +146,7 @@ public class RhythmConductor : MonoBehaviour
         return (double)audioSource.timeSamples / audioSource.clip.frequency;
     }
     #region new timing system
-    private double currentSmoothDspTime;
-    private double alphaValue;
-    private double betaValue;
+
     public void SmootherDSPTime()
     {
         double result = Time.unscaledTimeAsDouble * alphaValue + betaValue;

@@ -12,7 +12,6 @@ public class LongLane : MonoBehaviour
     [SerializeField]
     private KeyCode inputButton;
 
-
     public GameObject NotePrefab;
     public GameObject LongNotePrefab;
     List<NoteScript> notes;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,7 +29,8 @@ public class SingleHitNote : HitNote, IHitObject
     public void Hit()
     {
         column.InputIndex++;
-        ScoreManager.Instance.NoteHit();
+        double timeDiff = Math.Abs(NoteTimestamp-RhythmConductor.Instance.songPositionSeconds);
+        ScoreManager.Instance.NoteHit(timeDiff);
         Destroy(gameObject);
     }
     public void Miss()

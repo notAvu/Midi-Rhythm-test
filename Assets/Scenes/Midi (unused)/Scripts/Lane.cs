@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Melanchall.DryWetMidi.Interaction;
 using System;
-
+[Obsolete("Midi System is deprecated, this project is currently using the JSON system for mapping")]
 public class Lane : MonoBehaviour
 {
     [SerializeField]
@@ -57,7 +57,7 @@ public class Lane : MonoBehaviour
             double timeStamp = noteTimestamps[inputIndex];
             double marginOfError = SongManager.Instance.marginOfError;
             double audioTime = SongManager.GetAudioSourceTime() - (SongManager.Instance.inputDelay / 1000.0);
-
+            double hitDiff = Math.Abs(audioTime - timeStamp);
             if (Input.GetKeyDown(inputButton))
                 //maybe check keydown only for 1hit notes and getkey for long notes 
                 // UPDATE : There may not be necessary to check every note as long notes have nested notes and you should only check nested notes of active long notes 
