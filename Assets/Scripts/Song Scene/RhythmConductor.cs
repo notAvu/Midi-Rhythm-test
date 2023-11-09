@@ -89,15 +89,15 @@ public class RhythmConductor : MonoBehaviour
 
         songPositionSeconds = (float)(AudioSettings.dspTime - dpsTime);
         songPosition = songPositionSeconds / secondsPerNote;
-        if (lastBeat > 0 && (int)lastBeat != BeatBar.LastIndex && lastBeat % 8 == 0)
-        {
-            //BeatBar.LastIndex = (int)lastBeat;
-            //SpawnBar();
-        }
         if (songPosition > lastBeat + secondsPerNote)
         {
             lastBeat += secondsPerNote;
         }
+        //if (lastBeat > 0 && (int)lastBeat != BeatBar.LastIndex && lastBeat % 8 == 0)
+        //{
+        //    //BeatBar.LastIndex = (int)lastBeat;
+        //    //SpawnBar();
+        //}
     }
     #endregion
     #region initial instantiation methods

@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Melanchall.DryWetMidi.Interaction;
 using System;
-[Obsolete("Midi System is deprecated, this project is currently using the JSON system for mapping")]
+[Obsolete("Midi System is deprecated, this project is currently using the JSON system for mapping" )]
 public class Lane : MonoBehaviour
 {
     [SerializeField]
